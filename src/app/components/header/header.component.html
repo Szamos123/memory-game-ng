@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <span routerLink="/home">Memory card game</span>
+  <span class="spacer"></span>
+
+  <ng-container *ngIf="authService.isLoggedIn(); else guestLinks">
+    <span *ngIf="user">🏅 Gold: {{ user.gold }}</span>
+    <button mat-button routerLink="/profile">Profile</button>
+    <button mat-button (click)="onLogout()">Logout</button>
+    
+  </ng-container>
+
+  <ng-template #guestLinks>
+    <button mat-button routerLink="/login">Login</button>
+    <button mat-button routerLink="/register">Register</button>
+  </ng-template>
+</mat-toolbar>

@@ -1,0 +1,10 @@
+<div class="card" [ngClass]="{'flipped': data.cardState === 'flipped'}" (click)="toggleCardState()">
+  <div class="card-inner">
+    <div class="face front">
+      <img [src]="data.imageUrl" alt="Card Front" />
+    </div>
+    <div class="face back">
+      <img src="assets/card-back.png" alt="Card Back" />
+    </div>
+  </div>
+</div>
