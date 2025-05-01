@@ -19,6 +19,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
   flippedCards: CardData[] = [];
   private cardsSubscription!: Subscription;
   streakCounter: number = 0;
+  gameStarted: boolean = false;
   
 
 
@@ -36,7 +37,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
   }
 
   onCardClicked(card: CardData): void {
-    if (this.flippedCards.length >= 2 && card.cardState !== 'flipped') {
+    if (!this.gameStarted && this.flippedCards.length >= 2 && card.cardState !== 'flipped') {
       return;
     }
     card.cardState = 'flipped';
@@ -61,7 +62,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
           this.streakCounter++;
           
           console.log("🔥 Streak: " + this.streakCounter + " → Earned gold: " + bonusGold);
-          this.cards = this.cards.filter(c => c.cardState !== 'matched');
+          
         }, 600);
       }else{
         setTimeout(()=>{
@@ -102,5 +103,20 @@ export class GamePageComponent implements OnInit, OnDestroy {
         console.log(`✅ User earned ${earnedGold} gold for matching.`);
         this.userService.setUser(updatedUser); 
       });
+  }
+  startGame(): void {
+    this.gameStarted = true;
+  
+    
+    this.cards.forEach(card => {
+      card.cardState = 'flipped';
+    });
+  
+    
+    setTimeout(() => {
+      this.cards.forEach(card => {
+        card.cardState = 'default';
+      });
+    }, 1600);
   }
 }

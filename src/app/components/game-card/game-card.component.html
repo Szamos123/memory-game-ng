@@ -1,4 +1,4 @@
-<div class="card" [ngClass]="{'flipped': data.cardState === 'flipped'}" (click)="toggleCardState()">
+<div class="card" *ngIf="data.cardState !== 'matched'" [ngClass]="{'flipped': data.cardState === 'flipped'}" (click)="toggleCardState()">
   <div class="card-inner">
     <div class="face front">
       <img [src]="data.imageUrl" alt="Card Front" />
