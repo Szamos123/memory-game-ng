@@ -1,122 +1,40 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
-import { CardData } from '../../interfaces/card-data';
-import { CardService } from '../../services/card.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { GameService } from '../../services/game.service';  // Assuming game logic is moved here
+import { Observable } from 'rxjs';
+import { CardData } from '../../interfaces/card-data'; 
 import { CommonModule } from '@angular/common';
 import { GameCardComponent } from '../game-card/game-card.component';
-import { Subscription } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-game-page',
   templateUrl: './game-page.component.html',
   styleUrls: ['./game-page.component.scss'],
-  imports: [CommonModule, GameCardComponent],
+  imports:[CommonModule, GameCardComponent]
 })
 export class GamePageComponent implements OnInit, OnDestroy {
-  cards: CardData[] = [];
-  flippedCards: CardData[] = [];
-  private cardsSubscription!: Subscription;
-  streakCounter: number = 0;
-  gameStarted: boolean = false;
+  cards$!: Observable<CardData[]>; // Cards will be observable
+  gameStarted$!: Observable<boolean>; // Game state from the service
   
-
-
-  constructor(
-    private cardService: CardService,
-    private http: HttpClient,
-    private authService: AuthService, 
-    private userService: UserService,
-  ) {}
+  constructor(private gameService: GameService) {}
 
   ngOnInit(): void {
-    this.cardsSubscription = this.cardService.cards$.subscribe(cards => {
-      this.cards = cards;
-    });
-  }
-
-  onCardClicked(card: CardData): void {
-    if (!this.gameStarted && this.flippedCards.length >= 2 && card.cardState !== 'flipped') {
-      return;
-    }
-    card.cardState = 'flipped';
-    this.flippedCards.push(card);
-    this.isMatch()
-  }
-  isMatch(): void{
-    
-    if(this.flippedCards.length === 2){
-      const[first, second] = this.flippedCards;
-
-      const matched = first.imageId === second.imageId;
-      const isSameCard = first === second;
-      if(matched && !isSameCard){
-        //match found
-        setTimeout(() => {
-          first.cardState = 'matched';
-          second.cardState = 'matched';
-          this.flippedCards = [];
-          var bonusGold = 10+this.streakCounter*5;
-          this.updateUserGold(bonusGold);
-          this.streakCounter++;
-          
-          console.log("🔥 Streak: " + this.streakCounter + " → Earned gold: " + bonusGold);
-          
-        }, 600);
-      }else{
-        setTimeout(()=>{
-            
-            first.cardState = 'default';
-            second.cardState = 'default';
-            this.streakCounter = 0;
-            console.log("💔 Streak broken. Counter reset.");
-            this.flippedCards = [];
-        }, 1000)
-      } 
-    }
-
+    this.cards$ = this.gameService.cards$; // Getting cards from service
+    this.gameStarted$ = this.gameService.gameStarted$; // Getting game state from service
   }
 
   ngOnDestroy(): void {
-    
-    if (this.cardsSubscription) {
-      this.cardsSubscription.unsubscribe();
-    }
+    // Handle any cleanup if necessary
   }
-  
-  shuffleArray(anArray: any[]): any[] {
-    return anArray
-      .map((a) => [Math.random(), a])
-      .sort((a, b) => a[0] - b[0])
-      .map((a) => a[1]);
-  }
-  updateUserGold(earnedGold: number): void {
-    const currentUser = this.userService.user();
-  
-    if (!currentUser) return;
-  
-    const updatedUser = { ...currentUser, gold: currentUser.gold + earnedGold };
-  
-    this.http.put(`https://681109923ac96f7119a35d5a.mockapi.io/user/${currentUser.id}`, updatedUser)
-      .subscribe(() => {
-        console.log(`✅ User earned ${earnedGold} gold for matching.`);
-        this.userService.setUser(updatedUser); 
-      });
-  }
+
   startGame(): void {
-    this.gameStarted = true;
-  
-    
-    this.cards.forEach(card => {
-      card.cardState = 'flipped';
-    });
-  
-    
-    setTimeout(() => {
-      this.cards.forEach(card => {
-        card.cardState = 'default';
-      });
-    }, 1600);
+    this.gameService.startGame(); // Start game logic handled by the service
+  }
+
+  endGame(): void {
+    this.gameService.endGame(); // End game logic handled by the service
+  }
+
+  onCardClicked(card: CardData): void {
+    this.gameService.onCardClicked(card);  // Logic for flipping the card and matching handled by the service
   }
 }
