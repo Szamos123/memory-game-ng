@@ -22,12 +22,12 @@ export class GameService {
     private userService: UserService
   ) {}
 
-  // Initialize cards and shuffle them
+ 
   initCards(cards: CardData[]): void {
     this.cardsSubject.next(this.shuffleArray(cards));
   }
 
-  // Start the game by flipping cards for 1 second
+  
   startGame(): void {
     this.gameStartedSubject.next(true);
     let currentCards = this.cardsSubject.getValue();
@@ -48,7 +48,7 @@ export class GameService {
     }, 1600);
   }
 
-  // Handle card clicks and check for matches
+  
   onCardClicked(card: CardData): void {
     if (!this.gameStartedSubject.getValue() || card.cardState === 'flipped') {
       return;
@@ -60,7 +60,7 @@ export class GameService {
     this.isMatch();
   }
 
-  // Check if two flipped cards match
+  
   isMatch(): void {
     if (this.flippedCards.length === 2) {
       const [first, second] = this.flippedCards;
@@ -69,7 +69,7 @@ export class GameService {
       const isSameCard = first === second;
 
       if (matched && !isSameCard) {
-        // Match found, update cards to 'matched' state
+       
         setTimeout(() => {
           first.cardState = 'matched';
           second.cardState = 'matched';
@@ -80,6 +80,7 @@ export class GameService {
           this.updateUserGold(bonusGold);
 
           this.streakCounter++;
+          this.checkGameOver();
           console.log("🔥 Streak: " + this.streakCounter + " → Earned gold: " + bonusGold);
         }, 600);
       } else {
@@ -94,7 +95,7 @@ export class GameService {
     }
   }
 
-  // Update the user's gold balance
+  
   updateUserGold(earnedGold: number): void {
     const currentUser = this.userService.user();
     if (!currentUser) return;
@@ -108,7 +109,7 @@ export class GameService {
       });
   }
 
-  // Shuffle the cards
+  
   private shuffleArray(cards: CardData[]): CardData[] {
     return cards
       .map((card): [number, CardData] => [Math.random(), card])
@@ -116,9 +117,19 @@ export class GameService {
       .map((a) => a[1]);
   }
 
-  // End the game
-  endGame(): void {
-    this.gameStartedSubject.next(false);
+ 
+  checkGameOver(): void {
+    const allMatched = this.cardsSubject.getValue().every(card => card.cardState === 'matched');
+    if (allMatched) {
+      this.gameStartedSubject.next(false);
+      console.log("🏆 Game Over! All cards matched.");
+    }
+  }
+  restartGame(): void {
+    this.streakCounter = 0;
+    this.gameStartedSubject.next(true);
+    this.initCards(this.cardsSubject.getValue());
+    this.startGame();
   }
   
 }

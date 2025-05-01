@@ -4,6 +4,7 @@
       Tap on a card to flip it. You can only flip a maximum of two cards at a time. A match will remove those cards!
       <button *ngIf="!gameStarted" (click)="startGame()">Start Game</button>
     </p>
+  
 
     <div class="grid p-16">
       <ng-container *ngIf="(cards$ | async) as cards">
