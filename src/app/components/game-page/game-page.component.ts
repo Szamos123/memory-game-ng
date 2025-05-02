@@ -17,12 +17,10 @@ import { UserService } from '../../services/user.service';
 export class GamePageComponent implements OnInit, OnDestroy {
   cards: CardData[] = [];
   flippedCards: CardData[] = [];
-  private cardsSubscription!: Subscription;
   streakCounter: number = 0;
   gameStarted: boolean = false;
+  private cardsSubscription!: Subscription;
   
-
-
   constructor(
     private cardService: CardService,
     private http: HttpClient,
@@ -33,16 +31,20 @@ export class GamePageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.cardsSubscription = this.cardService.cards$.subscribe(cards => {
       this.cards = cards;
-    });
+    })
   }
 
   onCardClicked(card: CardData): void {
     if (!this.gameStarted && this.flippedCards.length >= 2 && card.cardState !== 'flipped') {
       return;
     }
-    card.cardState = 'flipped';
-    this.flippedCards.push(card);
-    this.isMatch()
+
+    if(card.cardState !== 'flipped' && this.flippedCards.filter(c => c.imageId === card.imageId && c.cardState !== 'flipped' ) .length === 0){
+      card.cardState = 'flipped';
+      this.flippedCards.push(card);
+
+      this.isMatch()
+    }
   }
   isMatch(): void{
     
@@ -60,9 +62,10 @@ export class GamePageComponent implements OnInit, OnDestroy {
           var bonusGold = 10+this.streakCounter*5;
           this.updateUserGold(bonusGold);
           this.streakCounter++;
-          
           console.log("🔥 Streak: " + this.streakCounter + " → Earned gold: " + bonusGold);
           
+          
+          this.checkEndOfGame();
         }, 600);
       }else{
         setTimeout(()=>{
@@ -118,5 +121,16 @@ export class GamePageComponent implements OnInit, OnDestroy {
         card.cardState = 'default';
       });
     }, 1600);
+  }
+  checkEndOfGame(): void {
+    console.log("Checking end of game...")
+    const allMatched = this.cards.every(card => card.cardState === 'matched'); 
+    console.log(allMatched);
+
+    if (allMatched) {
+      console.log('🎉 Game Over! All cards matched!');
+      this.gameStarted = false;
+      this.streakCounter = 0; 
+    }
   }
 }
