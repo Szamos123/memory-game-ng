@@ -1,20 +1,15 @@
 <div class="p-16">
-  <ng-container *ngIf="(gameStarted$ | async) as gameStarted">
-    <p class="text-center">
-      Tap on a card to flip it. You can only flip a maximum of two cards at a time. A match will remove those cards!
-      <button *ngIf="!gameStarted" (click)="startGame()">Start Game</button>
-    </p>
+  <p class="text-center">
+    Tap on a card to flip it. You can only flip a maximum of two cards at a time. A match will remove those cards!
+    <button *ngIf="!gameStarted" (click)="startGame()">Start Game</button>
+  </p>
   
-
-    <div class="grid p-16">
-      <ng-container *ngIf="(cards$ | async) as cards">
-        <app-game-card
-          *ngFor="let card of cards"
-          [data]="card"
-          (cardClicked)="gameStarted && onCardClicked(card)"
-        >
-        </app-game-card>
-      </ng-container>
-    </div>
-  </ng-container>
+  <div class="grid p-16">
+    <app-game-card
+      *ngFor="let card of cards; let idx = index"
+      [data]="card"
+      (cardClicked)="gameStarted && onCardClicked(card)"
+    >
+    </app-game-card>
+  </div>
 </div>
