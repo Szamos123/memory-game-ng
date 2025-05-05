@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   imports:[CommonModule]
 })
 export class GameCardComponent {
-  @Input() data!: CardData; // Now, this already has imageUrl passed in
+  @Input() data!: CardData; 
   @Output() cardClicked = new EventEmitter<CardData>();
 
   imageUrl: string = '';
