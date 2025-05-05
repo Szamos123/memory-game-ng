@@ -79,4 +79,38 @@ fdescribe('GamePageComponent', () => {
     expect(component.flippedCards.length).toBe(2);
     expect(card3.cardState).toBe('default');
   });
+
+ 
+  
+  fit('should reset streak counter on mismatch', fakeAsync(() => {
+    const card1 = { ...mockCards[0] };
+    const card2 = { ...mockCards[2] };
+
+    component.onCardClicked(card1);
+    component.onCardClicked(card2);
+
+    tick(2000); 
+
+    expect(component.streakCounter).toBe(0);
+  }
+  ));
+  fit('should shuffle cards', () => {
+    const cards = [
+      { id: 1, imageId: 1 },
+      { id: 2, imageId: 2 },
+      { id: 3, imageId: 3 },
+      { id: 4, imageId: 4 }
+    ];
+  
+    const originalCards = [...cards];
+    const shuffledCards = component.shuffleArray([...cards]);
+  
+    expect(shuffledCards).not.toEqual(originalCards); // Now should pass
+  });
+  fit('should run checkEndOfGame', () => {
+    component.cards = [{ imageId: '1', imageUrl: 'url1', cardState: 'matched' }, { imageId: '2', imageUrl: 'url2', cardState: 'matched' }];
+    component.checkEndOfGame();
+    expect(component.gameStarted).toBe(false);
+    expect(component.streakCounter).toBe(0);
+  });
 });
