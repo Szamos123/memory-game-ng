@@ -42,8 +42,10 @@ export class GamePageComponent implements OnInit, OnDestroy {
     if(card.cardState !== 'flipped' && this.flippedCards.filter(c => c.imageId === card.imageId && c.cardState !== 'flipped' ) .length === 0){
       card.cardState = 'flipped';
       this.flippedCards.push(card);
+      if(this.flippedCards.length === 2){
+        this.isMatch()
+      }
 
-      this.isMatch()
     }
   }
   isMatch(): void{
