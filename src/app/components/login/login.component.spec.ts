@@ -7,7 +7,7 @@ import { CardService } from '../../services/card.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let httpMock: HttpTestingController;
@@ -41,7 +41,7 @@ fdescribe('LoginComponent', () => {
     httpMock.verify(); 
   });
 
-  fit('should login successfully and navigate to home', fakeAsync(() => {
+  it('should login successfully and navigate to home', fakeAsync(() => {
     
     component.loginObj.email = 'test@example.com';
     component.loginObj.password = 'password123';
