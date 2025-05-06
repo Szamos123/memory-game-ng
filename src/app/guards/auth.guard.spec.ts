@@ -1,25 +1,46 @@
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 import { AuthGuard } from './auth.guard';
-import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 describe('AuthGuard', () => {
-  let authGuard: AuthGuard;
-  let router: Router;
+  let guard: AuthGuard;
+  let routerMock: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
+    routerMock = jasmine.createSpyObj('Router', ['navigate']);
+
     TestBed.configureTestingModule({
       providers: [
         AuthGuard,
-        { provide: Router, useValue: { navigate: jasmine.createSpy() } } // Mock the Router
+        { provide: Router, useValue: routerMock }
       ]
     });
-    authGuard = TestBed.inject(AuthGuard);
-    router = TestBed.inject(Router);
+
+    guard = TestBed.inject(AuthGuard);
   });
 
+  afterEach(() => {
+    localStorage.clear();
+  });
 
-  it('should be created', () => {
-    expect(authGuard).toBeTruthy();
+  it('should allow activation when user is logged in', () => {
+    localStorage.setItem('isLoggedIn', 'true');
+
+    const result = guard.canActivate();
+
+    expect(result).toBeTrue();
+    expect(routerMock.navigate).not.toHaveBeenCalled();
+  });
+
+  it('should block activation and redirect to login when not logged in', () => {
+    localStorage.setItem('isLoggedIn', 'false');
+
+    spyOn(window, 'alert'); // suppress or check alert
+
+    const result = guard.canActivate();
+
+    expect(result).toBeFalse();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
+    expect(window.alert).toHaveBeenCalledWith('Please log in first!');
   });
 });

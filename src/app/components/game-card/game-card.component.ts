@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   imports:[CommonModule]
 })
 export class GameCardComponent {
-  @Input() data!: CardData; 
+  @Input() data: CardData = { imageId: '', imageUrl: '', cardState: 'default' }; 
   @Output() cardClicked = new EventEmitter<CardData>();
 
   imageUrl: string = '';
