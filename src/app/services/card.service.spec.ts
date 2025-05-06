@@ -3,7 +3,7 @@ import { CardService } from './card.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CardData } from '../interfaces/card-data';
 
-fdescribe('CardService', () => {
+describe('CardService', () => {
   let service: CardService;
   let httpMock: HttpTestingController;
 
@@ -29,7 +29,7 @@ fdescribe('CardService', () => {
     httpMock.verify();
   });
 
-  fit('should fetch and set duplicated & shuffled cards', fakeAsync(() => {
+  it('should fetch and set duplicated & shuffled cards', fakeAsync(() => {
     let result: CardData[] | undefined;
 
     service.cards$.subscribe(cards => {
