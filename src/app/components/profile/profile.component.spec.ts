@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { ProfileComponent } from './profile.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-fdescribe('ProfileComponent', () => {
+describe('ProfileComponent', () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
   let httpMock: HttpTestingController;
@@ -26,7 +26,7 @@ fdescribe('ProfileComponent', () => {
     localStorage.setItem('userEmail', mockUser.email); 
     fixture.detectChanges();
 
-    // Kezeld le az ngOnInit által indított GET kérést
+   
     const req = httpMock.expectOne((req) =>
       req.url.includes(`user?email=${mockUser.email}`)
     );
@@ -38,7 +38,7 @@ fdescribe('ProfileComponent', () => {
     httpMock.verify(); 
   });
 
-  fit('should change password successfully', fakeAsync(() => {
+  it('should change password successfully', fakeAsync(() => {
     component.user = { ...mockUser };
     component.currentPassword = 'mockPassword1';
     component.newPassword = 'newMockPassword1';
@@ -56,7 +56,7 @@ fdescribe('ProfileComponent', () => {
     expect(component.user.password).toBe('newMockPassword1');
   }));
 
-  fit('should not change password if current password is incorrect', () => {
+  it('should not change password if current password is incorrect', () => {
     component.user = { ...mockUser };
     component.currentPassword = 'wrongPassword';
     component.newPassword = 'newMockPassword1';
@@ -68,7 +68,7 @@ fdescribe('ProfileComponent', () => {
     expect(window.alert).toHaveBeenCalledWith('❌ Current password is incorrect.');
   });
 
-  fit('should toggle change password form', () => {
+  it('should toggle change password form', () => {
     component.showChangeForm = false;
     component.toggleChangePassword();
     expect(component.showChangeForm).toBe(true);
@@ -77,7 +77,7 @@ fdescribe('ProfileComponent', () => {
     expect(component.showChangeForm).toBe(false);
   });
 
-  fit('should fetch user data on init', fakeAsync(() => {
+  it('should fetch user data on init', fakeAsync(() => {
     const email = 'mockEmail1';
     localStorage.setItem('userEmail', email);
 

@@ -39,16 +39,16 @@ describe('UserService', () => {
   }));
 
   it('should update user gold via PUT and update signal', fakeAsync(() => {
-    // Flush the initial GET request made in constructor
+    
     const initReq = httpMock.expectOne(
       'https://681109923ac96f7119a35d5a.mockapi.io/user?email=test@example.com'
     );
     initReq.flush([mockUser]);
   
-    // Set the user manually
+   
     service.setUser(mockUser);
   
-    // Trigger gold update
+    
     service.updateGold(200);
   
     const putReq = httpMock.expectOne(
