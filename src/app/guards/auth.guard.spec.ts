@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { AuthGuard } from './auth.guard';
 import { Router } from '@angular/router';
 
-fdescribe('AuthGuard', () => {
+describe('AuthGuard', () => {
   let guard: AuthGuard;
   let routerMock: jasmine.SpyObj<Router>;
 
@@ -23,7 +23,7 @@ fdescribe('AuthGuard', () => {
     localStorage.clear();
   });
 
-  fit('should allow activation when user is logged in', () => {
+  it('should allow activation when user is logged in', () => {
     localStorage.setItem('isLoggedIn', 'true');
 
     const result = guard.canActivate();
@@ -32,7 +32,7 @@ fdescribe('AuthGuard', () => {
     expect(routerMock.navigate).not.toHaveBeenCalled();
   });
 
-  fit('should block activation and redirect to login when not logged in', () => {
+  it('should block activation and redirect to login when not logged in', () => {
     localStorage.setItem('isLoggedIn', 'false');
 
     spyOn(window, 'alert'); // suppress or check alert
