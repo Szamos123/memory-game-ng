@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 
-fdescribe('HeaderComponent', () => {
+describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let authServiceMock: jasmine.SpyObj<AuthService>;
@@ -36,7 +36,7 @@ fdescribe('HeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should reroute to login page when logout is called', () => {
+  it('should reroute to login page when logout is called', () => {
     component.onLogout();
 
     expect(authServiceMock.logout).toHaveBeenCalled();
