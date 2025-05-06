@@ -33,7 +33,7 @@ export class CardService {
 
     imageUrls.forEach(imageUrl => {
       const cardData: CardData = {
-        imageId: imageUrl, // using the URL as ID for simplicity
+        imageId: imageUrl, 
         cardState: 'default',
         imageUrl: imageUrl
       };
