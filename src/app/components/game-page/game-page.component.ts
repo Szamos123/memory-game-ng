@@ -19,6 +19,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
   flippedCards: CardData[] = [];
   streakCounter: number = 0;
   gameStarted: boolean = false;
+  revealingCards: boolean = false;
   private cardsSubscription!: Subscription;
   
   constructor(
@@ -38,6 +39,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
     if (!this.gameStarted && this.flippedCards.length >= 2 && card.cardState !== 'flipped') {
       return;
     }
+    
 
     if(card.cardState !== 'flipped' && this.flippedCards.filter(c => c.imageId === card.imageId && c.cardState !== 'flipped' ) .length === 0){
       card.cardState = 'flipped';
@@ -110,19 +112,22 @@ export class GamePageComponent implements OnInit, OnDestroy {
       });
   }
   startGame(): void {
-    this.gameStarted = true;
+    this.gameStarted = false; 
+    this.revealingCards = true;
   
-    
+    // Show all cards for 1.5 seconds
     this.cards.forEach(card => {
       card.cardState = 'flipped';
     });
   
-    
     setTimeout(() => {
       this.cards.forEach(card => {
         card.cardState = 'default';
       });
-    }, 1600);
+  
+      this.revealingCards = false;
+      this.gameStarted = true;
+    }, 1500);
   }
   checkEndOfGame(): void {
     console.log("Checking end of game...")
