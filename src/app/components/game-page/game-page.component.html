@@ -1,15 +1,18 @@
-<div class="p-16">
-  <p class="text-center">
-    Tap on a card to flip it. You can only flip a maximum of two cards at a time. A match will remove those cards!
-    <button *ngIf="!gameStarted" (click)="startGame()">Start Game</button>
-  </p>
-  
-  <div class="grid p-16">
+<div class="p-8">
+  <div class="text-center mb-4">
+    <button *ngIf="!gameStarted" (click)="startGame()" 
+            class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+      Start Game
+    </button>
+  </div>
+
+  <div class="grid grid-cols-4 gap-4">
     <app-game-card
-      *ngFor="let card of cards; let idx = index"
+      *ngFor="let card of cards"
       [data]="card"
-      (cardClicked)="gameStarted && onCardClicked(card)"
-    >
-    </app-game-card>
+      [gameStarted]="gameStarted"
+      [revealing]="revealingCards"
+      (cardClicked)="onCardClicked(card)"
+    ></app-game-card>
   </div>
 </div>
