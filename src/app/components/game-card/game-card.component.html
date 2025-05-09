@@ -1,5 +1,5 @@
 <div 
-  class="card w-32 h-48 perspective cursor-pointer" 
+  class="card flex-1 w-full max-w-xs min-w-0 aspect-[2/3] shadow-xl transition duration-300 hover:scale-105 perspective cursor-pointer group hover:shadow-[0_0_15px_4px_rgba(231,243,165,0.75)] rounded-lg"
   (click)="toggleCardState()"
   [ngClass]="{
     'flipped': data.cardState === 'flipped' || revealing,
