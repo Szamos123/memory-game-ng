@@ -47,7 +47,6 @@ export class GamePageComponent implements OnInit, OnDestroy {
       if(this.flippedCards.length === 2){
         this.isMatch()
       }
-
     }
   }
   isMatch(): void{
@@ -143,13 +142,12 @@ export class GamePageComponent implements OnInit, OnDestroy {
   resetGame(): void {
   console.log("🔄 Resetting game...");
 
-  
   this.flippedCards = [];
   this.streakCounter = 0;
   this.gameStarted = false;
   this.revealingCards = false;
+  this.processingCards = false; 
 
-  
   this.cardService.fetchAndSetCards();
 }
 }
