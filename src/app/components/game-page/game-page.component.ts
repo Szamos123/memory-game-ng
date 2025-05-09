@@ -136,8 +136,20 @@ export class GamePageComponent implements OnInit, OnDestroy {
 
     if (allMatched) {
       console.log('🎉 Game Over! All cards matched!');
-      this.gameStarted = false;
-      this.streakCounter = 0; 
+      this.resetGame();
     }
   }
+
+  resetGame(): void {
+  console.log("🔄 Resetting game...");
+
+  
+  this.flippedCards = [];
+  this.streakCounter = 0;
+  this.gameStarted = false;
+  this.revealingCards = false;
+
+  
+  this.cardService.fetchAndSetCards();
+}
 }

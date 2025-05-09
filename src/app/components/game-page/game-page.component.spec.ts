@@ -113,4 +113,18 @@ describe('GamePageComponent', () => {
     expect(component.gameStarted).toBe(false);
     expect(component.streakCounter).toBe(0);
   });
+  it('should reset game after winning', () => {
+    component.cards = [
+      { imageId: '1', imageUrl: 'url1', cardState: 'matched' },
+      { imageId: '2', imageUrl: 'url2', cardState: 'matched' }
+    ];
+    component.streakCounter = 5;
+    component.gameStarted = true;
+
+    component.resetGame();
+
+    expect(component.streakCounter).toBe(0);
+    expect(component.gameStarted).toBe(false);
+  }
+  );
 });
