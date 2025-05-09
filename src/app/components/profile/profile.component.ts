@@ -22,28 +22,28 @@ export class ProfileComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    
-    const email = localStorage.getItem('userEmail');
-   
-    
-    if (!email) return;
+  const email = localStorage.getItem('userEmail');
+  console.log('Retrieved email:', email);
 
-    this.http.get<any[]>(`https://681109923ac96f7119a35d5a.mockapi.io/user?email=${email}`)
+  if (!email) {
+    this.isLoading = false; 
+    return;
+  }
+
+  console.log('Fetching user data for email:', email);
+
+  this.http.get<any[]>(`https://681109923ac96f7119a35d5a.mockapi.io/user?email=${email}`)
     .subscribe(users => {
-     
+      console.log('Fetched users:', users);
       if (users.length > 0) {
         this.user = users[0];
-       
-      } else {
-        
       }
       this.isLoading = false;
     }, error => {
       console.error('Error fetching user data:', error);
       this.isLoading = false;
     });
-  }
-
+}
   toggleChangePassword() {
     this.showChangeForm = !this.showChangeForm;
     this.currentPassword = '';
