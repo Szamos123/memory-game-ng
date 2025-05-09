@@ -74,7 +74,7 @@ export class ShopComponent {
   }
   isItemOwned(itemId: string): boolean {
     const user = this.userService.user();
-    return user?.ownedCardImages?.includes(itemId);
+    return user?.ownedCardImages?.includes(itemId) ?? false;
   }
 
 }
