@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { CardData } from '../../interfaces/card-data';  // Ensure this is the correct import
+import { CardData } from '../../interfaces/card-data'; 
 import { FormsModule } from '@angular/forms';
 import { CardService } from '../../services/card.service';
 
@@ -25,23 +25,26 @@ export class LoginComponent {
   ) {}
 
   onLogin() {
-    const apiUrl = 'https://681109923ac96f7119a35d5a.mockapi.io/user';
+  const apiUrl = 'https://681109923ac96f7119a35d5a.mockapi.io/user';
 
-    this.http.get<any[]>(`${apiUrl}?email=${this.loginObj.email}&password=${this.loginObj.password}`)
-      .subscribe(users => {
-        if (users.length > 0) {
-          alert('✅ Login successful!');
-          this.authService.login(this.loginObj.email);
-          this.cardService.fetchAndSetCards(); 
-          this.router.navigate(['/home']);
-        } else {
-          alert('❌ Invalid email or password');
-        }
-      }, error => {
-        console.error('Login failed:', error);
-        alert('🚨 Something went wrong during login.');
-      });
-  }
+
+
+  this.http.get<any[]>(`${apiUrl}?email=${this.loginObj.email}&password=${this.loginObj.password}`)
+    .subscribe(users => {
+      if (users.length > 0) {
+        localStorage.setItem('userEmail', this.loginObj.email);
+        alert('✅ Login successful!');
+        this.authService.login(this.loginObj.email);
+        this.cardService.fetchAndSetCards(); 
+        this.router.navigate(['/home']);
+      } else {
+        alert('❌ Invalid email or password');
+      }
+    }, error => {
+      console.error('Login failed:', error);
+      alert('🚨 Something went wrong during login.');
+    });
+}
 
   
 }
