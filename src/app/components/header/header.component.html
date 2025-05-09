@@ -1,16 +1,31 @@
-<mat-toolbar color="primary">
-  <span routerLink="/home">Memory card game</span>
-  <span class="spacer"></span>
+<header class="bg-[#127D74] p-4 shadow-md">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a href="/home" class="text-2xl font-semibold text-[#F3F9D2] hover:text-[#BC9EC1] transition duration-300">
+      Memory Card Game
+    </a>
 
-  <ng-container *ngIf="authService.isLoggedIn(); else guestLinks">
-    <span *ngIf="user">🏅 Gold: {{ user.gold }}</span>
-    <button mat-button routerLink="/profile">Profile</button>
-    <button mat-button (click)="onLogout()">Logout</button>
-    
-  </ng-container>
+    <div class="flex items-center space-x-4">
+      <ng-container *ngIf="authService.isLoggedIn(); else guestLinks">
+        <span *ngIf="user" class="text-[#F3F9D2]">🏅 Gold: {{ user.gold }}</span>
+        
+        <button class="px-4 py-2 bg-[#F3F9D2] text-[#212738] rounded-lg hover:bg-[#774C60] hover:text-[#F3F9D2] transition duration-300" routerLink="/profile">
+          Profile
+        </button>
+        
+        <button class="px-4 py-2 bg-[#F3F9D2] text-[#212738] rounded-lg hover:bg-[#774C60] hover:text-[#F3F9D2] transition duration-300" (click)="onLogout()">
+          Logout
+        </button>
+      </ng-container>
 
-  <ng-template #guestLinks>
-    <button mat-button routerLink="/login">Login</button>
-    <button mat-button routerLink="/register">Register</button>
-  </ng-template>
-</mat-toolbar>
+      <ng-template #guestLinks>
+        <button class="px-4 py-2 bg-[#F3F9D2] text-[#212738] rounded-lg hover:bg-[#774C60] hover:text-[#F3F9D2] transition duration-300" routerLink="/login">
+          Login
+        </button>
+        
+        <button class="px-4 py-2 bg-[#F3F9D2] text-[#212738] rounded-lg hover:bg-[#774C60] hover:text-[#F3F9D2] transition duration-300" routerLink="/register">
+          Register
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</header>
