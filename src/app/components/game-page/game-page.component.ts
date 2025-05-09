@@ -21,6 +21,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
   gameStarted: boolean = false;
   revealingCards: boolean = false;
   private cardsSubscription!: Subscription;
+  private processingCards: boolean = false;
   
   constructor(
     private cardService: CardService,
@@ -36,9 +37,8 @@ export class GamePageComponent implements OnInit, OnDestroy {
   }
 
   onCardClicked(card: CardData): void {
-    if (!this.gameStarted && this.flippedCards.length >= 2 && card.cardState !== 'flipped') {
-      return;
-    }
+    if(this.processingCards || !this.gameStarted) return;
+    if(this.flippedCards.length >= 2) return;
     
 
     if(card.cardState !== 'flipped' && this.flippedCards.filter(c => c.imageId === card.imageId && c.cardState !== 'flipped' ) .length === 0){
