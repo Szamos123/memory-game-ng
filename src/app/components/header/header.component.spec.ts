@@ -17,7 +17,7 @@ describe('HeaderComponent', () => {
     userServiceMock = jasmine.createSpyObj('UserService', ['user']);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
-    // Prevent error during initial rendering
+   
     authServiceMock.isLoggedIn.and.returnValue(true);
     userServiceMock.user.and.returnValue({ email: 'test@example.com' });
 

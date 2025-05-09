@@ -5,6 +5,11 @@
   
     justify-content: center;
   }
+  :host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
   
   @media (max-width: 600px) {
     .grid {

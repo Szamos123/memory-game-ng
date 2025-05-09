@@ -1,9 +1,80 @@
-<div class = "home">
-        <p>Memory card game </p>
-        <p> In this game, you need to match the cards to their pairs, after seeing them for a couple of seconds</p>
-        <p> Make sure to register before playing, so you can earn gold after every successful match</p>
-        <div *ngIf="authService.isLoggedIn(); ">
-                <button mat-button routerLink="/game">PLAY GAME</button>
-                
-        </div>
+<div
+  class="home relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#A0E8AF] to-[#0D5D56] overflow-hidden p-6"
+>
+  <!-- Background Circles (Matching Game Page) -->
+  <div
+    class="absolute w-[600px] h-[600px] bg-[#226B6D] opacity-14 rounded-full -top-32 -left-20 blur-3xl animate-pulse"
+  ></div>
+  <div
+    class="absolute w-[500px] h-[500px] bg-[#6BC79B] opacity-17 rounded-full bottom-20 right-16 blur-2xl animate-pulse"
+  ></div>
+
+  <!-- Content Container -->
+  <div
+    class="relative z-10 p-6 w-full max-w-2xl flex flex-col items-center text-white text-center"
+  >
+    <!-- Title -->
+    <h1 class="text-4xl font-bold mb-6 drop-shadow-lg">Memory Card Game</h1>
+
+    <!-- Description -->
+    <p class="text-lg mb-2 max-w-lg drop-shadow-lg">
+      In this game, you need to match the cards to their pairs after seeing them
+      for a moment.
+    </p>
+    <p class="text-lg mb-6 max-w-lg drop-shadow-lg">
+      Make sure to login/register before playing, so you can earn gold after
+      every successful match.
+    </p>
+
+    <!-- Play Button (Only if logged in) -->
+    <div *ngIf="authService.isLoggedIn()" class="mt-4">
+      <button
+        routerLink="/game"
+        class="relative px-6 py-3 text-base font-bold text-white rounded-md group overflow-hidden mb-2"
+      >
+        <span
+          class="absolute inset-0 w-full h-full bg-gradient-to-r from-cyan-500 to-blue-500 opacity-70 blur-xl group-hover:opacity-100 transition-opacity duration-300"
+        ></span>
+        <span
+          class="absolute inset-0 w-full h-full bg-gradient-to-r from-[#127D74] to-[#17A195] opacity-90"
+        ></span>
+        <span
+          class="absolute inset-0 w-1/4 h-full bg-white/20 skew-x-12 transform -translate-x-full group-hover:translate-x-[400%] transition-transform duration-1000"
+        ></span>
+        <!-- Overlapping Cards Icon -->
+        <span class="relative flex items-center gap-2 z-10">
+          <svg
+            class="w-5 h-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <!-- Back Card -->
+            <rect
+              x="6"
+              y="4"
+              width="11"
+              height="16"
+              rx="2"
+              class="stroke-white -rotate-20 -translate-x-[6.6px] translate-y-1"
+            ></rect>
+            <!-- Front Card -->
+            <rect
+              x="4"
+              y="6"
+              width="11"
+              height="16"
+              rx="2"
+              class="stroke-white rotate-20 translate-x-[10.7px] -translate-y-[5px] fill-[#178379]"
+            ></rect>
+          </svg>
+          <span class="tracking-wider">Play</span>
+        </span>
+        <span
+          class="absolute inset-0 w-full h-full border border-cyan-300/50 rounded-md"
+        ></span>
+      </button>
+    </div>
+  </div>
 </div>

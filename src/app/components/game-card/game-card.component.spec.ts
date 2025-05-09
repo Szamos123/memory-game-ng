@@ -27,8 +27,39 @@ describe('GameCardComponent', () => {
     cardClickedSpy = spyOn(component.cardClicked, 'emit');
   });
 
-  it('should emit cardClicked event with correct data when toggleCardState is called', () => {
+  it('should emit cardClicked event with correct data when toggleCardState is called and conditions are met', () => {
+    component.gameStarted = true;  // Ensure game has started
+    component.revealing = false;   // Ensure card is not in the revealing state
+    component.data.cardState = 'default';  // Ensure card is not matched
+  
     component.toggleCardState();
     expect(cardClickedSpy).toHaveBeenCalledWith(mockCardData);
   });
+  it('should not emit cardClicked event if game has not started', () => {
+    component.gameStarted = false;
+    component.revealing = false;
+    component.data.cardState = 'default';
+  
+    component.toggleCardState();
+    expect(cardClickedSpy).not.toHaveBeenCalled();
+  });
+  
+  it('should not emit cardClicked event if the card is revealing', () => {
+    component.gameStarted = true;
+    component.revealing = true;
+    component.data.cardState = 'default';
+  
+    component.toggleCardState();
+    expect(cardClickedSpy).not.toHaveBeenCalled();
+  });
+  
+  it('should not emit cardClicked event if the card is matched', () => {
+    component.gameStarted = true;
+    component.revealing = false;
+    component.data.cardState = 'matched';
+  
+    component.toggleCardState();
+    expect(cardClickedSpy).not.toHaveBeenCalled();
+  });
+    
 });

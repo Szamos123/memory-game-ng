@@ -3,6 +3,9 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { CommonModule } from '@angular/common';
 import { CardService } from './services/card.service';
+import { initFlowbite } from 'flowbite';
+
+
 
 @Component({
   selector: 'app-root',
@@ -19,5 +22,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.cardService.fetchAndSetCards();
+    initFlowbite(); 
   }
 }

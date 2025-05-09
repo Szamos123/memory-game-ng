@@ -1,10 +1,25 @@
-<div class="card" *ngIf="data.cardState !== 'matched'" [ngClass]="{'flipped': data.cardState === 'flipped'}" (click)="toggleCardState()">
-  <div class="card-inner">
-    <div class="face front">
-      <img [src]="data.imageUrl" alt="Card Front" />
+<div 
+  class="card flex-1 w-full max-w-xs min-w-0 aspect-[2/3] shadow-xl transition duration-300 hover:scale-105 perspective cursor-pointer group hover:shadow-[0_0_15px_4px_rgba(231,243,165,0.75)] rounded-lg"
+  (click)="toggleCardState()"
+  [ngClass]="{
+    'flipped': data.cardState === 'flipped' || revealing,
+    'cursor-not-allowed': !gameStarted 
+  }"
+  *ngIf="data.cardState !== 'matched'" 
+>
+  <div class="card-inner relative w-full h-full transition-transform duration-500"
+       [ngClass]="{
+         'rotate-y-180': data.cardState === 'flipped' || revealing
+       }">
+    
+    <!-- Back Face -->
+    <div class="face back absolute w-full h-full flex items-center justify-center backface-hidden rounded-lg shadow-lg bg-transparent">
+      <img src="assets/card-back.jpg" alt="Card Back" class="w-full h-full object-cover rounded-lg" />
     </div>
-    <div class="face back">
-      <img src="assets/card-back.png" alt="Card Back" />
+
+    <!-- Front Face -->
+    <div class="face front absolute w-full h-full bg-gray-800 text-white flex items-center justify-center backface-hidden rounded-lg shadow-lg">
+      <img [src]="data.imageUrl" alt="Card Front" class="w-full h-full object-cover rounded-lg" />
     </div>
   </div>
 </div>
