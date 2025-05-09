@@ -1,42 +1,60 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
-  standalone:true,
-  imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss'],
+  imports: [FormsModule]
 })
 export class RegisterComponent {
-
   registerObj = new Register();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-  onRegister(){
-    const apiUrl = "https://681109923ac96f7119a35d5a.mockapi.io/user";
+  onRegister() {
+    const apiUrl = 'https://681109923ac96f7119a35d5a.mockapi.io/user';
+
+   
+    const newUser = {
+      email: this.registerObj.email,
+      password: this.registerObj.password,
+      username: this.registerObj.username,
+      profilePic: '',  
+      gold: 0,  
+      selectedCardImage: '',  
+      ownedCardImages: [],  
+    };
+
     
-    this.http.post(apiUrl, this.registerObj).subscribe(
-      res => {
-        alert("Registration successful");
-        this.router.navigate(['/login']);
+    this.http.post<any>(apiUrl, newUser).subscribe(
+      (user) => {
+        alert('✅ Registration successful!');
+        this.authService.login(user.email);  
+        this.router.navigate(['/home']);
       },
-      err => {
-        alert("Registration failed");
-        console.error('Registration error:', err)
+      (error) => {
+        console.error('Registration failed:', error);
+        alert('🚨 Something went wrong during registration.');
       }
-
-    )
+    );
   }
-
 }
 
-export class Register{
+export class Register {
   email: string = '';
   password: string = '';
+  username: string = '';
+  profilePic: string = '';
   gold: number = 0;
+  selectedCardImage: string = '';
+  ownedCardImages: string[] = [];
+
 }
