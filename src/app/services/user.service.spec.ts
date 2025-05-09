@@ -49,18 +49,18 @@ describe('UserService', () => {
     service.setUser(mockUser);
   
     
-    service.updateGold(200);
+    service.updateUserGold(200);
   
     const putReq = httpMock.expectOne(
       'https://681109923ac96f7119a35d5a.mockapi.io/user/1'
     );
     expect(putReq.request.method).toBe('PUT');
-    expect(putReq.request.body.gold).toBe(200);
+    expect(putReq.request.body.gold).toBe(300);
   
-    putReq.flush({});
+    putReq.flush({ ...mockUser, gold: 300 });
     tick();
   
-    expect(service.user()?.gold).toBe(200);
+    expect(service.user()?.gold).toBe(300);
   }));
 
   
