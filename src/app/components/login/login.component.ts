@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CardService } from '../../services/card.service';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent {
     private http: HttpClient,
     private router: Router,
     private authService: AuthService,
-    private cardService: CardService
+    private cardService: CardService,
+    private userService: UserService
   ) {}
 
   onLogin() {
@@ -38,6 +40,7 @@ export class LoginComponent {
           localStorage.setItem('ownedCardImages', JSON.stringify(user.ownedCardImages));
 
           alert('✅ Login successful!');
+          this.userService.loadUser();
           this.authService.login(user.email);
           this.cardService.fetchAndSetCards();  
           this.router.navigate(['/home']);
