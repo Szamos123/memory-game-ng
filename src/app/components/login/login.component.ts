@@ -29,9 +29,10 @@ export class LoginComponent {
     this.http.get<any[]>(`${apiUrl}?email=${this.loginObj.email}&password=${this.loginObj.password}`).subscribe(users => {
       if (users.length > 0) {
         const user = users[0]; 
+
+        
       
         if (this.loginObj.password === user.password) {
-          
           localStorage.setItem('userEmail', user.email);
           localStorage.setItem('username', user.username);
           localStorage.setItem('profilePic', user.profilePic);
