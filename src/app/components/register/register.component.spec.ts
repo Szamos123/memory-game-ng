@@ -11,6 +11,10 @@ describe('RegisterComponent', () => {
     id: 1,
     email: 'mockEmail1',
     password: 'mockPassword1',
+    username: 'mockUser',
+    profilePic: 'default.jpg',
+    selectedCardImage: 'default_card.jpg',
+    ownedCardImages: [],
     gold: 0
   };
 

@@ -63,7 +63,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
           second.cardState = 'matched';
           this.flippedCards = [];
           var bonusGold = 10+this.streakCounter*5;
-          this.updateUserGold(bonusGold);
+          this.userService.updateUserGold(bonusGold);
           this.streakCounter++;
           console.log("🔥 Streak: " + this.streakCounter + " → Earned gold: " + bonusGold);
           
@@ -84,46 +84,27 @@ export class GamePageComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
-    
-    if (this.cardsSubscription) {
-      this.cardsSubscription.unsubscribe();
-    }
-  }
   
   shuffleArray(anArray: any[]): any[] {
     return anArray
-      .map((a) => [Math.random(), a])
-      .sort((a, b) => a[0] - b[0])
-      .map((a) => a[1]);
-  }
-  updateUserGold(earnedGold: number): void {
-    const currentUser = this.userService.user();
-  
-    if (!currentUser) return;
-  
-    const updatedUser = { ...currentUser, gold: currentUser.gold + earnedGold };
-  
-    this.http.put(`https://681109923ac96f7119a35d5a.mockapi.io/user/${currentUser.id}`, updatedUser)
-      .subscribe(() => {
-        console.log(`✅ User earned ${earnedGold} gold for matching.`);
-        this.userService.setUser(updatedUser); 
-      });
+    .map((a) => [Math.random(), a])
+    .sort((a, b) => a[0] - b[0])
+    .map((a) => a[1]);
   }
   startGame(): void {
     this.gameStarted = false; 
     this.revealingCards = true;
-  
+    
     // Show all cards for 1.5 seconds
     this.cards.forEach(card => {
       card.cardState = 'flipped';
     });
-  
+    
     setTimeout(() => {
       this.cards.forEach(card => {
         card.cardState = 'default';
       });
-  
+      
       this.revealingCards = false;
       this.gameStarted = true;
     }, 1500);
@@ -132,22 +113,29 @@ export class GamePageComponent implements OnInit, OnDestroy {
     console.log("Checking end of game...")
     const allMatched = this.cards.every(card => card.cardState === 'matched'); 
     console.log(allMatched);
-
+    
     if (allMatched) {
       console.log('🎉 Game Over! All cards matched!');
       this.resetGame();
     }
   }
-
+  
   resetGame(): void {
-  console.log("🔄 Resetting game...");
-
-  this.flippedCards = [];
-  this.streakCounter = 0;
-  this.gameStarted = false;
-  this.revealingCards = false;
-  this.processingCards = false; 
-
-  this.cardService.fetchAndSetCards();
-}
+    console.log("🔄 Resetting game...");
+    
+    this.flippedCards = [];
+    this.streakCounter = 0;
+    this.gameStarted = false;
+    this.revealingCards = false;
+    this.processingCards = false; 
+    
+    this.cardService.fetchAndSetCards();
+  }
+  
+  ngOnDestroy(): void {
+    
+    if (this.cardsSubscription) {
+      this.cardsSubscription.unsubscribe();
+    }
+  }
 }

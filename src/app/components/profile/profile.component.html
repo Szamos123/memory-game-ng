@@ -9,10 +9,10 @@
       *ngIf="user; else loading" 
       class="text-center bg-gradient-to-br from-[#127D74] to-[#17A195] rounded-xl shadow-lg p-10 backdrop-blur-lg max-w-3xl w-full"
     >
-      <h2 class="text-4xl font-bold mb-6">👤 Profile</h2>
+      <h2 class="text-4xl font-bold mb-6">👤{{user.username}}'s Profile</h2>
       
       <div class="text-lg mb-8">
-        <p class="mb-4"><strong>Email:</strong> {{ user.email }}</p>
+        <p class="mb-4"><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Gold:</strong> {{ user.gold }}</p>
       </div>
 
@@ -21,6 +21,10 @@
         class="mt-6 px-6 py-3 bg-[#F3F9D2] text-[#212738] rounded-lg hover:bg-[#774C60] hover:text-[#F3F9D2] transition duration-300"
       >
         {{ showChangeForm ? 'Cancel' : 'Change Password' }}
+      </button>
+     <button
+        class="mt-6 ml-3 px-6 py-3 bg-[#F3F9D2] text-[#212738] rounded-lg hover:bg-[#774C60] hover:text-[#F3F9D2] transition duration-300"
+        routerLink="/shop"> Go to Shop
       </button>
 
       <div *ngIf="showChangeForm" class="mt-8">

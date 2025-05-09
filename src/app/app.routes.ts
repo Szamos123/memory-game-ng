@@ -5,6 +5,7 @@ import { GamePageComponent } from './components/game-page/game-page.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ShopComponent } from './components/shop/shop.component';
 
 export const routes: Routes = [
     {
@@ -34,6 +35,10 @@ export const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         canActivate: [AuthGuard]
+      },
+      {
+        path:'shop',
+        component: ShopComponent,
       }
       
 
