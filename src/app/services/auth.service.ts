@@ -10,14 +10,12 @@ export class AuthService {
     this._isLoggedIn.set(true);
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('userEmail', email);
-    
   }
 
   logout() {
     this._isLoggedIn.set(false);
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('userEmail');
-
   }
 
   private readFromLocalStorage(): boolean {
