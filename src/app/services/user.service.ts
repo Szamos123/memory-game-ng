@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,20 +10,23 @@ export class UserService {
 
   private _user = signal<any | null> (null);
   user = computed(() => this._user())
+  private userLoadedSubject = new BehaviorSubject<boolean>(false); 
+  userLoaded$ = this.userLoadedSubject.asObservable();
   setUser(user: any){
     this._user.set(user);
   }
 
   constructor(private http: HttpClient) { this.loadUser()}
 
-  loadUser(){
+    loadUser(): void {
     const email = localStorage.getItem('userEmail');
-    if(!email) return;
+    if (!email) return;
 
-    this.http.get<any[]> (`https://681109923ac96f7119a35d5a.mockapi.io/user?email=${email}`).subscribe((users) =>{
-      if(users.length > 0){
-        
-        this._user.set(users[0])
+    this.http.get<any[]>(`https://681109923ac96f7119a35d5a.mockapi.io/user?email=${email}`).subscribe((users) => {
+      if (users.length > 0) {
+        const currUser = users[0];
+        this.userLoadedSubject.next(true); 
+        this._user.set(currUser);
       }
     });
   }
@@ -71,11 +76,47 @@ export class UserService {
       }
     );
   }
-  
+  fetchOwnedSkins(): Observable<any[]> {
+    const currUser = this.user();
+    if (!currUser) return of([]);
+    const ownedCardIds = currUser.ownedCardImages;
+
+    return this.http.get<any[]>(`https://681109923ac96f7119a35d5a.mockapi.io/shop-items`).pipe(
+      map((items) => items.filter(item => ownedCardIds.includes(item.id))),
+      catchError(() => of([]))
+    );
+  }
+ selectSkin(skinId: string): void {
+  const currentUser = this.user();
+  if (!currentUser) return;
+
+  console.log('Skin ID received:', skinId); // Verify what is being received
+
+  const updatedUser = {
+    ...currentUser,
+    selectedCardImage: skinId // Updating the existing `selectedCardImage` field
+  };
+
+  console.log('Payload being sent to API:', updatedUser);
+
+  this.http.put(`https://681109923ac96f7119a35d5a.mockapi.io/user/${currentUser.id}`, updatedUser)
+    .subscribe(
+      () => {
+        this._user.set(updatedUser);
+        console.log('Selected skin updated successfully:', skinId);
+      },
+      (error) => {
+        console.error('Failed to update selected skin:', error);
+        alert('❌ Something went wrong while selecting the skin.');
+      }
+    );
+}
+
   getUserGold(): number {
     const user = this._user();
     return user ? user.gold : 0;
   }
+  
   
 }
 

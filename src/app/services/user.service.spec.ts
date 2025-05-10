@@ -25,7 +25,6 @@ describe('UserService', () => {
     localStorage.clear();
   });
 
-
   it('should load user from API based on localStorage email', fakeAsync(() => {
     const req = httpMock.expectOne(
       'https://681109923ac96f7119a35d5a.mockapi.io/user?email=test@example.com'
