@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { CardData } from '../../interfaces/card-data';
 import { CommonModule } from '@angular/common';
 
@@ -9,23 +16,33 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
 })
 export class GameCardComponent implements OnInit {
-  @Input() data: CardData = { imageId: '', imageUrl: '', cardState: 'default', backImageUrl: '' };
+  @Input() data: CardData = {
+    imageId: '',
+    imageUrl: '',
+    cardState: 'default',
+    backImageUrl: '',
+  };
   @Input() gameStarted: boolean = false;
   @Input() revealing: boolean = false;
   @Input() backImageUrl: string = '';
   @Output() cardClicked = new EventEmitter<CardData>();
 
   isImageLoaded: boolean = false;
-  isLoading: boolean = true; 
+  isLoading: boolean = true;
 
   toggleCardState(): void {
-    if (!this.gameStarted || this.revealing || this.data.cardState === 'matched') return;
+    if (
+      !this.gameStarted ||
+      this.revealing ||
+      this.data.cardState === 'matched'
+    )
+      return;
     this.cardClicked.emit(this.data);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['backImageUrl']) {
-      this.isImageLoaded = false; 
+      this.isImageLoaded = false;
       this.isLoading = true;
     }
   }

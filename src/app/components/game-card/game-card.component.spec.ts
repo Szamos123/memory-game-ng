@@ -17,7 +17,7 @@ describe('GameCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CommonModule, GameCardComponent]
+      imports: [CommonModule, GameCardComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GameCardComponent);
@@ -29,10 +29,10 @@ describe('GameCardComponent', () => {
   });
 
   it('should emit cardClicked event with correct data when toggleCardState is called and conditions are met', () => {
-    component.gameStarted = true;  
-    component.revealing = false;   
-    component.data.cardState = 'default';  
-  
+    component.gameStarted = true;
+    component.revealing = false;
+    component.data.cardState = 'default';
+
     component.toggleCardState();
     expect(cardClickedSpy).toHaveBeenCalledWith(mockCardData);
   });
@@ -40,27 +40,26 @@ describe('GameCardComponent', () => {
     component.gameStarted = false;
     component.revealing = false;
     component.data.cardState = 'default';
-  
+
     component.toggleCardState();
     expect(cardClickedSpy).not.toHaveBeenCalled();
   });
-  
+
   it('should not emit cardClicked event if the card is revealing', () => {
     component.gameStarted = true;
     component.revealing = true;
     component.data.cardState = 'default';
-  
+
     component.toggleCardState();
     expect(cardClickedSpy).not.toHaveBeenCalled();
   });
-  
+
   it('should not emit cardClicked event if the card is matched', () => {
     component.gameStarted = true;
     component.revealing = false;
     component.data.cardState = 'matched';
-  
+
     component.toggleCardState();
     expect(cardClickedSpy).not.toHaveBeenCalled();
   });
-    
 });

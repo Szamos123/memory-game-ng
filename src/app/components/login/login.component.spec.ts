@@ -1,6 +1,14 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { Login, LoginComponent } from './login.component';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CardService } from '../../services/card.service';
@@ -28,8 +36,8 @@ describe('LoginComponent', () => {
         { provide: Router, useValue: routerMock },
         { provide: AuthService, useValue: authServiceMock },
         { provide: CardService, useValue: cardServiceMock },
-        { provide: UserService, useValue: userServiceMock }
-      ]
+        { provide: UserService, useValue: userServiceMock },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
@@ -39,7 +47,7 @@ describe('LoginComponent', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); 
+    httpMock.verify();
     localStorage.clear();
   });
 
@@ -51,7 +59,9 @@ describe('LoginComponent', () => {
 
     component.onLogin();
 
-    const req = httpMock.expectOne('https://681109923ac96f7119a35d5a.mockapi.io/user?email=test@example.com&password=password123');
+    const req = httpMock.expectOne(
+      'https://681109923ac96f7119a35d5a.mockapi.io/user?email=test@example.com&password=password123'
+    );
     expect(req.request.method).toBe('GET');
 
     req.flush([
@@ -62,8 +72,8 @@ describe('LoginComponent', () => {
         profilePic: 'test.png',
         gold: 100,
         selectedCardImage: 'card1.png',
-        ownedCardImages: ['card1.png', 'card2.png']
-      }
+        ownedCardImages: ['card1.png', 'card2.png'],
+      },
     ]);
 
     tick();
@@ -73,7 +83,9 @@ describe('LoginComponent', () => {
     expect(localStorage.getItem('profilePic')).toBe('test.png');
     expect(localStorage.getItem('gold')).toBe('100');
     expect(localStorage.getItem('selectedCardImage')).toBe('card1.png');
-    expect(localStorage.getItem('ownedCardImages')).toBe(JSON.stringify(['card1.png', 'card2.png']));
+    expect(localStorage.getItem('ownedCardImages')).toBe(
+      JSON.stringify(['card1.png', 'card2.png'])
+    );
 
     expect(authServiceMock.login).toHaveBeenCalledWith('test@example.com');
     expect(cardServiceMock.fetchAndSetCards).toHaveBeenCalled();
@@ -90,7 +102,9 @@ describe('LoginComponent', () => {
 
     component.onLogin();
 
-    const req = httpMock.expectOne('https://681109923ac96f7119a35d5a.mockapi.io/user?email=test@example.com&password=wrongpassword');
+    const req = httpMock.expectOne(
+      'https://681109923ac96f7119a35d5a.mockapi.io/user?email=test@example.com&password=wrongpassword'
+    );
     expect(req.request.method).toBe('GET');
 
     req.flush([
@@ -101,8 +115,8 @@ describe('LoginComponent', () => {
         profilePic: 'test.png',
         gold: 100,
         selectedCardImage: 'card1.png',
-        ownedCardImages: ['card1.png', 'card2.png']
-      }
+        ownedCardImages: ['card1.png', 'card2.png'],
+      },
     ]);
 
     tick();
@@ -120,17 +134,19 @@ describe('LoginComponent', () => {
 
     component.onLogin();
 
-    const req = httpMock.expectOne('https://681109923ac96f7119a35d5a.mockapi.io/user?email=notfound@example.com&password=password123');
+    const req = httpMock.expectOne(
+      'https://681109923ac96f7119a35d5a.mockapi.io/user?email=notfound@example.com&password=password123'
+    );
     expect(req.request.method).toBe('GET');
 
     req.flush([]);
 
     tick();
 
-    expect(window.alert).toHaveBeenCalledWith('❌ No user found with this email');
+    expect(window.alert).toHaveBeenCalledWith(
+      '❌ No user found with this email'
+    );
     expect(authServiceMock.login).not.toHaveBeenCalled();
     expect(routerMock.navigate).not.toHaveBeenCalled();
   }));
-
-
 });

@@ -24,7 +24,6 @@ export class ShopComponent {
   userGold: any;
 
   constructor(private userService: UserService, private http: HttpClient) {
-   
     this.user = this.userService.user;
     this.userGold = computed(() => this.user()?.gold ?? 0);
   }
@@ -57,25 +56,23 @@ export class ShopComponent {
 
     const currentGold = user.gold;
 
-    console.log(`User Gold: ${currentGold}, Item Price: ${item.price}, Item ID: ${item.id}`);
+    console.log(
+      `User Gold: ${currentGold}, Item Price: ${item.price}, Item ID: ${item.id}`
+    );
 
     if (currentGold >= item.price) {
       console.log(`Attempting to purchase ${item.name} for ${item.price} gold`);
-     
-      ; 
+
       this.userService.updateUserGold(-item.price);
-      this.userService.updateOwnedItems(item.id); 
-    
+      this.userService.updateOwnedItems(item.id);
 
       alert(`✅ Successfully purchased ${item.name}!`);
     } else {
       alert('❌ You do not have enough gold!');
     }
-
   }
   isItemOwned(itemId: string): boolean {
     const user = this.userService.user();
     return user?.ownedCardImages?.includes(itemId) ?? false;
   }
-
 }

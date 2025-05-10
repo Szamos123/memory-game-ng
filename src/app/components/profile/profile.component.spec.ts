@@ -1,6 +1,14 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { ProfileComponent } from './profile.component';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -23,10 +31,9 @@ describe('ProfileComponent', () => {
     component = fixture.componentInstance;
     httpMock = TestBed.inject(HttpTestingController);
 
-    localStorage.setItem('userEmail', mockUser.email); 
+    localStorage.setItem('userEmail', mockUser.email);
     fixture.detectChanges();
 
-   
     const req = httpMock.expectOne((req) =>
       req.url.includes(`user?email=${mockUser.email}`)
     );
@@ -35,7 +42,7 @@ describe('ProfileComponent', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); 
+    httpMock.verify();
   });
 
   it('should change password successfully', fakeAsync(() => {
@@ -49,9 +56,9 @@ describe('ProfileComponent', () => {
       req.url.includes(`user/${mockUser.id}`)
     );
     expect(req.request.method).toBe('PUT');
-    req.flush({}); 
+    req.flush({});
 
-    tick(); 
+    tick();
 
     expect(component.user.password).toBe('newMockPassword1');
   }));
@@ -61,11 +68,13 @@ describe('ProfileComponent', () => {
     component.currentPassword = 'wrongPassword';
     component.newPassword = 'newMockPassword1';
 
-    spyOn(window, 'alert'); 
+    spyOn(window, 'alert');
 
     component.onChangePassword();
 
-    expect(window.alert).toHaveBeenCalledWith('❌ Current password is incorrect.');
+    expect(window.alert).toHaveBeenCalledWith(
+      '❌ Current password is incorrect.'
+    );
   });
 
   it('should toggle change password form', () => {
@@ -89,7 +98,7 @@ describe('ProfileComponent', () => {
     expect(req.request.method).toBe('GET');
     req.flush([mockUser]);
 
-    tick(); 
+    tick();
 
     expect(component.user).toEqual(mockUser);
   }));

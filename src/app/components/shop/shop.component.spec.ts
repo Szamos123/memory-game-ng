@@ -11,13 +11,13 @@ describe('ShopComponent', () => {
   const mockShopItems = [
     { id: '1', name: 'Card Back 1', price: 50 },
     { id: '2', name: 'Card Back 2', price: 150 },
-    { id: '3', name: 'Card Back 3', price: 100 }
+    { id: '3', name: 'Card Back 3', price: 100 },
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule], 
-      providers: [UserService] 
+      imports: [HttpClientTestingModule],
+      providers: [UserService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ShopComponent);
@@ -26,26 +26,47 @@ describe('ShopComponent', () => {
   });
 
   beforeEach(() => {
-    
     spyOn(userService, 'updateUserGold');
     spyOn(userService, 'updateOwnedItems');
-    spyOn(window, 'alert'); 
+    spyOn(window, 'alert');
   });
 
   it('should not purchase item if user does not have enough gold', () => {
-    const mockItem = { ...mockShopItems[1], price: 150, description: 'Another sample description', imageUrl: 'another-sample-image-url' };
-    const mockUser = { id: '1', email: 'mockEmail1', gold: 100, ownedCardImages: [] };
+    const mockItem = {
+      ...mockShopItems[1],
+      price: 150,
+      description: 'Another sample description',
+      imageUrl: 'another-sample-image-url',
+    };
+    const mockUser = {
+      id: '1',
+      email: 'mockEmail1',
+      gold: 100,
+      ownedCardImages: [],
+    };
 
     spyOn(userService, 'user').and.returnValue(mockUser);
 
     component.purchaseItem(mockItem);
 
-    expect(window.alert).toHaveBeenCalledWith('❌ You do not have enough gold!');
+    expect(window.alert).toHaveBeenCalledWith(
+      '❌ You do not have enough gold!'
+    );
   });
 
   it('should purchase item successfully if user has enough gold', () => {
-    const mockItem = { ...mockShopItems[0], price: 50, description: 'A sample description', imageUrl: 'sample-image-url' };
-    const mockUser = { id: '1', email: 'mockEmail1', gold: 100, ownedCardImages: [] };
+    const mockItem = {
+      ...mockShopItems[0],
+      price: 50,
+      description: 'A sample description',
+      imageUrl: 'sample-image-url',
+    };
+    const mockUser = {
+      id: '1',
+      email: 'mockEmail1',
+      gold: 100,
+      ownedCardImages: [],
+    };
 
     spyOn(userService, 'user').and.returnValue(mockUser);
 
@@ -55,8 +76,13 @@ describe('ShopComponent', () => {
     expect(userService.updateOwnedItems).toHaveBeenCalledWith(mockItem.id);
   });
   it('should not purchase item if user data is not available', () => {
-    const mockItem = { ...mockShopItems[0], price: 50, description: 'A sample description', imageUrl: 'sample-image-url' };
-    
+    const mockItem = {
+      ...mockShopItems[0],
+      price: 50,
+      description: 'A sample description',
+      imageUrl: 'sample-image-url',
+    };
+
     spyOn(userService, 'user').and.returnValue(null); // Simulate no user data
 
     component.purchaseItem(mockItem);

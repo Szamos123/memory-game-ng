@@ -9,9 +9,8 @@ describe('OwnedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OwnedComponent, HttpClientTestingModule]
-    })
-    .compileComponents();
+      imports: [OwnedComponent, HttpClientTestingModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OwnedComponent);
     component = fixture.componentInstance;

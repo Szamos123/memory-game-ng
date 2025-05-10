@@ -10,17 +10,22 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterLink, CommonModule],
+  imports: [
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+    CommonModule,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
-
 })
 export class HeaderComponent {
   authService = inject(AuthService);
-  userService = inject(UserService)
+  userService = inject(UserService);
   router = inject(Router);
 
-  get user(){
+  get user() {
     return this.userService.user();
   }
 

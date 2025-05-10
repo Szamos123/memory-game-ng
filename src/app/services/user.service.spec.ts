@@ -1,5 +1,8 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { UserService } from './user.service';
 
 describe('UserService', () => {
@@ -13,7 +16,7 @@ describe('UserService', () => {
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [UserService]
+      providers: [UserService],
     });
 
     service = TestBed.inject(UserService);
@@ -38,29 +41,24 @@ describe('UserService', () => {
   }));
 
   it('should update user gold via PUT and update signal', fakeAsync(() => {
-    
     const initReq = httpMock.expectOne(
       'https://681109923ac96f7119a35d5a.mockapi.io/user?email=test@example.com'
     );
     initReq.flush([mockUser]);
-  
-   
+
     service.setUser(mockUser);
-  
-    
+
     service.updateUserGold(200);
-  
+
     const putReq = httpMock.expectOne(
       'https://681109923ac96f7119a35d5a.mockapi.io/user/1'
     );
     expect(putReq.request.method).toBe('PUT');
     expect(putReq.request.body.gold).toBe(300);
-  
+
     putReq.flush({ ...mockUser, gold: 300 });
     tick();
-  
+
     expect(service.user()?.gold).toBe(300);
   }));
-
-  
 });
