@@ -21,7 +21,7 @@
       In this game, you need to match the cards to their pairs after seeing them
       for a moment.
     </p>
-    <p class="text-lg mb-6 max-w-lg drop-shadow-lg">
+    <p *ngIf="!authService.isLoggedIn()" class="text-lg mb-6 max-w-lg drop-shadow-lg">
       Make sure to login/register before playing, so you can earn gold after
       every successful match.
     </p>
