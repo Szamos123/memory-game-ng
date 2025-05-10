@@ -37,7 +37,7 @@ export class ShopComponent {
 
     this.http.get<ShopItem[]>(apiUrl).subscribe(
       (items) => {
-        this.shopItems = items;
+        this.shopItems = items.filter(item => item.id !== '1');
         console.log('Shop items loaded:', this.shopItems);
       },
       (error) => {
