@@ -12,6 +12,7 @@ describe('GameCardComponent', () => {
     imageId: 'mock-image-id',
     imageUrl: 'mock-image-url',
     cardState: 'default',
+    backImageUrl: 'mock-back-image-url',
   };
 
   beforeEach(async () => {
@@ -28,9 +29,9 @@ describe('GameCardComponent', () => {
   });
 
   it('should emit cardClicked event with correct data when toggleCardState is called and conditions are met', () => {
-    component.gameStarted = true;  // Ensure game has started
-    component.revealing = false;   // Ensure card is not in the revealing state
-    component.data.cardState = 'default';  // Ensure card is not matched
+    component.gameStarted = true;  
+    component.revealing = false;   
+    component.data.cardState = 'default';  
   
     component.toggleCardState();
     expect(cardClickedSpy).toHaveBeenCalledWith(mockCardData);
