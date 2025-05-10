@@ -13,7 +13,7 @@ describe('AppComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({}), 
+            params: of({}),
             snapshot: { data: {} },
           },
         },
@@ -26,6 +26,4 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-
- 
 });

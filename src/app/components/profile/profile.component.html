@@ -1,56 +1,66 @@
-<div class="relative min-h-screen flex flex-col items-center bg-gradient-to-br from-[#A0E8AF] to-[#0D5D56] overflow-hidden p-6">
+<div
+  class="relative min-h-screen flex flex-col items-center bg-gradient-to-br from-[#A0E8AF] to-[#0D5D56] overflow-hidden p-6"
+>
   <!-- Animated Background Gradient Circles -->
-  <div class="absolute w-[600px] h-[600px] bg-[#226B6D] opacity-14 rounded-full -top-32 -left-20 blur-3xl animate-pulse"></div>
-  <div class="absolute w-[500px] h-[500px] bg-[#6BC79B] opacity-17 rounded-full bottom-20 right-16 blur-2xl animate-pulse"></div>
+  <div
+    class="absolute w-[600px] h-[600px] bg-[#226B6D] opacity-14 rounded-full -top-32 -left-20 blur-3xl animate-pulse"
+  ></div>
+  <div
+    class="absolute w-[500px] h-[500px] bg-[#6BC79B] opacity-17 rounded-full bottom-20 right-16 blur-2xl animate-pulse"
+  ></div>
 
   <!-- Profile Container -->
-  <div class="relative z-10 p-6 w-full max-w-5xl flex flex-col items-center flex-grow text-white">
-    <div 
-      *ngIf="user; else loading" 
+  <div
+    class="relative z-10 p-6 w-full max-w-5xl flex flex-col items-center flex-grow text-white"
+  >
+    <div
+      *ngIf="user; else loading"
       class="text-center bg-gradient-to-br from-[#127D74] to-[#17A195] rounded-xl shadow-lg p-10 backdrop-blur-lg max-w-3xl w-full"
     >
-      <h2 class="text-4xl font-bold mb-6">👤{{user.username}}'s Profile</h2>
-      
+      <h2 class="text-4xl font-bold mb-6">👤{{ user.username }}'s Profile</h2>
+
       <div class="text-lg mb-8">
         <p class="mb-4"><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Gold:</strong> {{ user.gold }}</p>
       </div>
 
-      <button 
-        (click)="toggleChangePassword()" 
+      <button
+        (click)="toggleChangePassword()"
         class="mt-6 px-6 py-3 bg-[#F3F9D2] text-[#212738] rounded-lg hover:bg-[#774C60] hover:text-[#F3F9D2] transition duration-300"
       >
-        {{ showChangeForm ? 'Cancel' : 'Change Password' }}
+        {{ showChangeForm ? "Cancel" : "Change Password" }}
       </button>
-     <button
+      <button
         class="mt-6 ml-3 px-6 py-3 bg-[#F3F9D2] text-[#212738] rounded-lg hover:bg-[#774C60] hover:text-[#F3F9D2] transition duration-300"
-        routerLink="/shop"> Go to Shop
+        routerLink="/shop"
+      >
+        Go to Shop
       </button>
 
       <div *ngIf="showChangeForm" class="mt-8">
         <form (ngSubmit)="onChangePassword()" class="space-y-4">
           <div>
             <label class="block text-lg font-medium">Current Password:</label>
-            <input 
-              type="password" 
-              [(ngModel)]="currentPassword" 
-              name="currentPassword" 
-              required 
+            <input
+              type="password"
+              [(ngModel)]="currentPassword"
+              name="currentPassword"
+              required
               class="w-full p-3 bg-transparent border border-[#F3F9D2] rounded-lg text-white"
-            >
+            />
           </div>
           <div>
             <label class="block text-lg font-medium">New Password:</label>
-            <input 
-              type="password" 
-              [(ngModel)]="newPassword" 
-              name="newPassword" 
-              required 
+            <input
+              type="password"
+              [(ngModel)]="newPassword"
+              name="newPassword"
+              required
               class="w-full p-3 bg-transparent border border-[#F3F9D2] rounded-lg text-white"
-            >
+            />
           </div>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             class="w-full mt-4 px-6 py-3 bg-[#F3F9D2] text-[#774C60] rounded-lg hover:bg-[#774C60] hover:text-[#F3F9D2] transition duration-300"
           >
             Submit

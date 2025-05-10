@@ -1,7 +1,7 @@
 <div
   class="home relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#A0E8AF] to-[#0D5D56] overflow-hidden p-6"
 >
-  <!-- Background Circles (Matching Game Page) -->
+  <!-- Background Circles -->
   <div
     class="absolute w-[600px] h-[600px] bg-[#226B6D] opacity-14 rounded-full -top-32 -left-20 blur-3xl animate-pulse"
   ></div>
@@ -21,7 +21,7 @@
       In this game, you need to match the cards to their pairs after seeing them
       for a moment.
     </p>
-    <p class="text-lg mb-6 max-w-lg drop-shadow-lg">
+    <p *ngIf="!authService.isLoggedIn()" class="text-lg mb-6 max-w-lg drop-shadow-lg">
       Make sure to login/register before playing, so you can earn gold after
       every successful match.
     </p>

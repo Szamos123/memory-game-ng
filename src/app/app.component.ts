@@ -5,23 +5,21 @@ import { CommonModule } from '@angular/common';
 import { CardService } from './services/card.service';
 import { initFlowbite } from 'flowbite';
 
-
-
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, HeaderComponent, CommonModule],
   template: `
-    <app-header/>
+    <app-header />
     <main>
       <router-outlet></router-outlet>
     </main>
-  `
+  `,
 })
 export class AppComponent implements OnInit {
   constructor(private cardService: CardService) {}
 
   ngOnInit(): void {
     this.cardService.fetchAndSetCards();
-    initFlowbite(); 
+    initFlowbite();
   }
 }

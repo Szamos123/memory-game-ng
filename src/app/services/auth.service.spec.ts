@@ -21,8 +21,7 @@ describe('AuthService', () => {
   it('should initialize isLoggedIn from localStorage as true', () => {
     localStorage.setItem('isLoggedIn', 'true');
 
-    
-    service = new AuthService();// recreate to trigger re-read
+    service = new AuthService(); // recreate to trigger re-read
 
     expect(service.isLoggedIn()).toBeTrue();
   });

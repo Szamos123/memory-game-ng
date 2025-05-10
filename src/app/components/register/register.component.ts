@@ -29,7 +29,7 @@ export class RegisterComponent {
       username: this.registerObj.username,
       profilePic: '',  
       gold: 0,  
-      selectedCardImage: '',  
+      selectedCardImage: '1',  
       ownedCardImages: [],  
     };
 

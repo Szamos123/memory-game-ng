@@ -1,72 +1,121 @@
-<div class="relative min-h-screen flex flex-col items-center bg-gradient-to-br from-[#A0E8AF] to-[#0D5D56] overflow-hidden">
+<div
+  class="relative min-h-screen flex flex-col items-center bg-gradient-to-br from-[#A0E8AF] to-[#0D5D56] overflow-hidden"
+>
   <!-- Animated Background Gradient Circles -->
-  <div class="absolute w-[600px] h-[600px] bg-[#226B6D] opacity-14 rounded-full -top-32 -left-20 blur-3xl animate-pulse"></div>
-  <div class="absolute w-[500px] h-[500px] bg-[#6BC79B] opacity-17 rounded-full bottom-20 right-16 blur-2xl animate-pulse"></div>
+  <div
+    class="absolute w-[600px] h-[600px] bg-[#226B6D] opacity-14 rounded-full -top-32 -left-20 blur-3xl animate-pulse"
+  ></div>
+  <div
+    class="absolute w-[500px] h-[500px] bg-[#6BC79B] opacity-17 rounded-full bottom-20 right-16 blur-2xl animate-pulse"
+  ></div>
 
   <!-- Content Container -->
-  <div class="relative z-10 p-6 w-full max-w-5xl flex flex-col items-center flex-grow">
-
+  <div
+    class="relative z-10 p-6 w-full max-w-5xl flex flex-col items-center flex-grow"
+  >
     <!-- Start/Reset Game Button -->
     <div class="text-center mb-4">
-      <button 
-        *ngIf="!gameStarted" 
-        (click)="startGame()" 
+      <button
+        *ngIf="!gameStarted"
+        (click)="startGame()"
         class="relative px-6 py-3 text-base font-bold text-white rounded-md group overflow-hidden mb-2"
       >
         <!-- Background Effects -->
-        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-[#226B6D] to-[#45C0C4] opacity-70 blur-xl group-hover:opacity-100 transition-opacity duration-300"></span>
-        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-[#127D74] to-[#17A195] opacity-90"></span>
-        <span class="absolute inset-0 w-1/4 h-full bg-white/20 skew-x-12 transform -translate-x-full group-hover:translate-x-[400%] transition-transform duration-1000"></span>
+        <span
+          class="absolute inset-0 w-full h-full bg-gradient-to-r from-[#226B6D] to-[#45C0C4] opacity-70 blur-xl group-hover:opacity-100 transition-opacity duration-300"
+        ></span>
+        <span
+          class="absolute inset-0 w-full h-full bg-gradient-to-r from-[#127D74] to-[#17A195] opacity-90"
+        ></span>
+        <span
+          class="absolute inset-0 w-1/4 h-full bg-white/20 skew-x-12 transform -translate-x-full group-hover:translate-x-[400%] transition-transform duration-1000"
+        ></span>
 
         <!-- Overlapping Cards Icon -->
         <span class="relative flex items-center gap-2 z-10">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="6" y="4" width="11" height="16" rx="2" class="stroke-white -rotate-20 -translate-x-[6.6px] translate-y-1"></rect>
-            <rect x="4" y="6" width="11" height="16" rx="2" class="stroke-white rotate-20 translate-x-[10.7px] -translate-y-[5px] fill-[#178379]"></rect>
+          <svg
+            class="w-5 h-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect
+              x="6"
+              y="4"
+              width="11"
+              height="16"
+              rx="2"
+              class="stroke-white -rotate-20 -translate-x-[6.6px] translate-y-1"
+            ></rect>
+            <rect
+              x="4"
+              y="6"
+              width="11"
+              height="16"
+              rx="2"
+              class="stroke-white rotate-20 translate-x-[10.7px] -translate-y-[5px] fill-[#178379]"
+            ></rect>
           </svg>
           <span class="tracking-wider">START GAME</span>
         </span>
 
         <!-- Border Effect -->
-        <span class="absolute inset-0 w-full h-full border border-cyan-300/50 rounded-md"></span>
+        <span
+          class="absolute inset-0 w-full h-full border border-cyan-300/50 rounded-md"
+        ></span>
       </button>
 
-      <button 
-        *ngIf="gameStarted" 
-        (click)="resetGame()" 
+      <button
+        *ngIf="gameStarted"
+        (click)="resetGame()"
         class="relative px-6 py-3 text-base font-bold text-white rounded-md group overflow-hidden mb-2"
       >
         <!-- Background Effects -->
-        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-[#C34F4F] to-[#D87C7C] opacity-70 blur-xl group-hover:opacity-100 transition-opacity duration-300"></span>
-        <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-[#B14040] to-[#D87C7C] opacity-90"></span>
-        <span class="absolute inset-0 w-1/4 h-full bg-white/20 skew-x-12 transform -translate-x-full group-hover:translate-x-[400%] transition-transform duration-1000"></span>
+        <span
+          class="absolute inset-0 w-full h-full bg-gradient-to-r from-[#C34F4F] to-[#D87C7C] opacity-70 blur-xl group-hover:opacity-100 transition-opacity duration-300"
+        ></span>
+        <span
+          class="absolute inset-0 w-full h-full bg-gradient-to-r from-[#B14040] to-[#D87C7C] opacity-90"
+        ></span>
+        <span
+          class="absolute inset-0 w-1/4 h-full bg-white/20 skew-x-12 transform -translate-x-full group-hover:translate-x-[400%] transition-transform duration-1000"
+        ></span>
 
         <!-- Reset Icon -->
         <span class="relative flex items-center gap-2 z-10">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M22.719 12A10.719 10.719 0 0 1 1.28 12h.838a9.916 9.916 0 1 0 1.373-5H8v1H2V2h1v4.2A10.71 10.71 0 0 1 22.719 12z" fill="#FFFFFF"/>
+            <path
+              d="M22.719 12A10.719 10.719 0 0 1 1.28 12h.838a9.916 9.916 0 1 0 1.373-5H8v1H2V2h1v4.2A10.71 10.71 0 0 1 22.719 12z"
+              fill="#FFFFFF"
+            />
           </svg>
           <span class="tracking-wider">RESET GAME</span>
         </span>
         <!-- Border Effect -->
-        <span class="absolute inset-0 w-full h-full border border-red-300/50 rounded-md"></span>
+        <span
+          class="absolute inset-0 w-full h-full border border-red-300/50 rounded-md"
+        ></span>
       </button>
-
     </div>
 
     <!-- Game Board  -->
-    <div class="w-90% max-w-full p-4 bg-gradient-to-br from-[#8CE39F] to-[#127D74] rounded-xl shadow-lg backdrop-blur-lg  flex justify-center items-center overflow-hidden">
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4 max-w-full h-full">
+    <div
+      class="w-90% max-w-full p-4 bg-gradient-to-br from-[#8CE39F] to-[#127D74] rounded-xl shadow-lg backdrop-blur-lg flex justify-center items-center overflow-hidden"
+    >
+      <div
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4 max-w-full h-full"
+      >
         <app-game-card
           *ngFor="let card of cards"
           [data]="card"
           [gameStarted]="gameStarted"
           [revealing]="revealingCards"
+          [backImageUrl]="card.backImageUrl"
           (cardClicked)="onCardClicked(card)"
-          style="max-width: clamp(120px, 20vw, 200px);"
+          style="max-width: clamp(120px, 20vw, 200px)"
         ></app-game-card>
       </div>
     </div>
-    
   </div>
 </div>
