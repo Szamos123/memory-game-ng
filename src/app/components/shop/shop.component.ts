@@ -2,6 +2,7 @@ import { Component, computed } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 interface ShopItem {
   id: string;
@@ -15,7 +16,7 @@ interface ShopItem {
   selector: 'app-shop',
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss'],
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
 })
 export class ShopComponent {
   shopItems: ShopItem[] = [];
