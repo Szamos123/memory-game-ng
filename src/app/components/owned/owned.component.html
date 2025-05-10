@@ -1,0 +1,75 @@
+<div
+  class="relative min-h-screen flex flex-col items-center bg-gradient-to-br from-[#A0E8AF] to-[#0D5D56] overflow-hidden p-6"
+>
+  <!-- Animated Background Gradient Circles -->
+  <div
+    class="absolute w-[600px] h-[600px] bg-[#226B6D] opacity-14 rounded-full -top-32 -left-20 blur-3xl animate-pulse"
+  ></div>
+  <div
+    class="absolute w-[500px] h-[500px] bg-[#6BC79B] opacity-17 rounded-full bottom-20 right-16 blur-2xl animate-pulse"
+  ></div>
+
+  <!-- Shop Container -->
+  <div
+    class="relative z-10 p-6 w-full max-w-5xl flex flex-col items-center flex-grow text-white"
+  >
+    <div
+      class="text-center bg-gradient-to-br from-[#127D74] to-[#17A195] rounded-xl shadow-lg p-10 backdrop-blur-lg max-w-3xl w-full"
+    >
+      <h2 class="text-4xl font-bold mb-6">Inventory</h2>
+      <p class="text-lg mb-6">
+        Welcome to your inventory! Here you can select skins for the back of
+        your cards.
+      </p>
+      <button
+        class="mb-4 px-6 py-3 bg-[#F3F9D2] text-[#212738] rounded-lg hover:bg-[#774C60] hover:text-[#F3F9D2] transition duration-300"
+        routerLink="/shop"
+      >
+        Back to Shop
+      </button>
+
+      <!-- Available Items -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div
+          *ngFor="let skin of ownedSkins"
+          class="flex flex-col items-center bg-[#226B6D] p-4 rounded-lg shadow-lg hover:scale-105 transition-all duration-300"
+        >
+          <div
+            class="relative w-32 h-52 rounded-lg overflow-hidden shadow-lg border-1 hover:shadow-2xl transition-all duration-300"
+          >
+            <img
+              [src]="skin.imageUrl"
+              alt="{{ skin.name }}"
+              class="w-full h-full object-cover rounded-lg"
+            />
+            <div
+              class="absolute top-0 left-0 w-full h-full rounded-lg border-4 border-[#212738] pointer-events-none"
+            ></div>
+          </div>
+
+          <h3 class="text-lg font-semibold text-white mt-3 mb-1">
+            {{ skin.name }}
+          </h3>
+
+          <button
+            (click)="selectSkin(skin.id)"
+            [disabled]="userService.user()?.selectedCardImage === skin.id"
+            class="bg-[#17A195] text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300"
+            [ngClass]="{
+              'bg-[#738290] text-white':
+                userService.user()?.selectedCardImage === skin.id,
+              'hover:bg-[#127D74]':
+                userService.user()?.selectedCardImage !== skin.id
+            }"
+          >
+            {{
+              userService.user()?.selectedCardImage === skin.id
+                ? "Selected"
+                : "Select skin"
+            }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
