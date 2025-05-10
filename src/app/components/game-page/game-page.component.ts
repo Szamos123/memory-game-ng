@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { CardData } from '../../interfaces/card-data';
 import { CardService } from '../../services/card.service';
 import { CommonModule } from '@angular/common';
@@ -20,7 +20,9 @@ export class GamePageComponent implements OnInit, OnDestroy {
   streakCounter: number = 0;
   gameStarted: boolean = false;
   revealingCards: boolean = false;
+  selectedSkinImageUrl: string = '';
   private cardsSubscription!: Subscription;
+  private userLoadedSubscription!: Subscription;
   private processingCards: boolean = false;
   
   constructor(
@@ -28,19 +30,54 @@ export class GamePageComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private authService: AuthService, 
     private userService: UserService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
-    this.cardsSubscription = this.cardService.cards$.subscribe(cards => {
-      this.cards = cards;
-    })
+  
+  if (this.cards.length === 0) {
+    this.cardService.fetchAndSetCards();
   }
 
+  // Subscribe to the cards observable to update the cards once they are loaded
+  this.cardsSubscription = this.cardService.cards$.subscribe(cards => {
+    if (cards.length > 0) {
+      this.cards = cards;
+      console.log('Cards loaded:', this.cards);
+      this.userLoadedSubscription = this.userService.userLoaded$.subscribe(userLoaded => {
+        if (userLoaded) {
+          this.loadSelectedSkin();
+        }
+      });
+    }
+  });
+}
+
+
+  loadSelectedSkin(): void {
+    const selectedCardSkinId = this.userService.user()?.selectedCardImage;
+   
+    if (selectedCardSkinId) {
+      this.userService.fetchOwnedSkins().subscribe((skins) => {
+        const selectedSkin = skins.find(skin => skin.id === selectedCardSkinId);
+        if (selectedSkin) {
+          console.log('Selected Skin:', selectedSkin);  
+          this.applySkinToCards(selectedSkin.imageUrl);  
+        }
+      });
+    }
+  }
+  applySkinToCards(skinImageUrl: string): void {
+    this.cards = this.cards.map(card => ({
+      ...card,
+      backImageUrl: skinImageUrl
+    }));
+    this.cdr.detectChanges(); 
+  }
   onCardClicked(card: CardData): void {
     if(this.processingCards || !this.gameStarted) return;
     if(this.flippedCards.length >= 2) return;
     
-
     if(card.cardState !== 'flipped' && this.flippedCards.filter(c => c.imageId === card.imageId && c.cardState !== 'flipped' ) .length === 0){
       card.cardState = 'flipped';
       this.flippedCards.push(card);
@@ -62,21 +99,19 @@ export class GamePageComponent implements OnInit, OnDestroy {
           first.cardState = 'matched';
           second.cardState = 'matched';
           this.flippedCards = [];
-          var bonusGold = 10+this.streakCounter*5;
+          
+          var bonusGold = 5+this.streakCounter*2;
           this.userService.updateUserGold(bonusGold);
           this.streakCounter++;
-          console.log("🔥 Streak: " + this.streakCounter + " → Earned gold: " + bonusGold);
-          
           
           this.checkEndOfGame();
         }, 600);
       }else{
         setTimeout(()=>{
-            
             first.cardState = 'default';
             second.cardState = 'default';
+
             this.streakCounter = 0;
-            console.log("💔 Streak broken. Counter reset.");
             this.flippedCards = [];
         }, 1000)
       } 
@@ -95,11 +130,9 @@ export class GamePageComponent implements OnInit, OnDestroy {
     this.gameStarted = false; 
     this.revealingCards = true;
     
-    // Show all cards for 1.5 seconds
     this.cards.forEach(card => {
       card.cardState = 'flipped';
     });
-    
     setTimeout(() => {
       this.cards.forEach(card => {
         card.cardState = 'default';
@@ -110,18 +143,15 @@ export class GamePageComponent implements OnInit, OnDestroy {
     }, 1500);
   }
   checkEndOfGame(): void {
-    console.log("Checking end of game...")
     const allMatched = this.cards.every(card => card.cardState === 'matched'); 
     console.log(allMatched);
     
     if (allMatched) {
-      console.log('🎉 Game Over! All cards matched!');
       this.resetGame();
     }
   }
   
   resetGame(): void {
-    console.log("🔄 Resetting game...");
     
     this.flippedCards = [];
     this.streakCounter = 0;
@@ -136,6 +166,9 @@ export class GamePageComponent implements OnInit, OnDestroy {
     
     if (this.cardsSubscription) {
       this.cardsSubscription.unsubscribe();
+    }
+    if (this.userLoadedSubscription) {
+      this.userLoadedSubscription.unsubscribe();
     }
   }
 }

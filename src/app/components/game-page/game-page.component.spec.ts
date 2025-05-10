@@ -14,9 +14,9 @@ describe('GamePageComponent', () => {
   let mockUserService: jasmine.SpyObj<UserService>;
 
   const mockCards: CardData[] = [
-    { imageId: '1', imageUrl: 'url1', cardState: 'default' },
-    { imageId: '1', imageUrl: 'url1', cardState: 'default' },
-    { imageId: '2', imageUrl: 'url2', cardState: 'default' }
+    { imageId: '1', imageUrl: 'url1', cardState: 'default', backImageUrl: 'backUrl1' },
+    { imageId: '1', imageUrl: 'url1', cardState: 'default', backImageUrl: 'backUrl1' },
+    { imageId: '2', imageUrl: 'url2', cardState: 'default', backImageUrl: 'backUrl2' },
   ];
 
   beforeEach(async () => {
@@ -105,18 +105,18 @@ describe('GamePageComponent', () => {
     const originalCards = [...cards];
     const shuffledCards = component.shuffleArray([...cards]);
   
-    expect(shuffledCards).not.toEqual(originalCards); // Now should pass
+    expect(shuffledCards).not.toEqual(originalCards); 
   });
   it('should run checkEndOfGame', () => {
-    component.cards = [{ imageId: '1', imageUrl: 'url1', cardState: 'matched' }, { imageId: '2', imageUrl: 'url2', cardState: 'matched' }];
+    component.cards = [{ imageId: '1', imageUrl: 'url1', cardState: 'matched', backImageUrl: 'backUrl1' }, { imageId: '2', imageUrl: 'url2', cardState: 'matched', backImageUrl: 'backUrl2' }];
     component.checkEndOfGame();
     expect(component.gameStarted).toBe(false);
     expect(component.streakCounter).toBe(0);
   });
   it('should reset game after winning', () => {
     component.cards = [
-      { imageId: '1', imageUrl: 'url1', cardState: 'matched' },
-      { imageId: '2', imageUrl: 'url2', cardState: 'matched' }
+      { imageId: '1', imageUrl: 'url1', cardState: 'matched', backImageUrl: 'backUrl1' },
+      { imageId: '2', imageUrl: 'url2', cardState: 'matched', backImageUrl: 'backUrl2' },
     ];
     component.streakCounter = 5;
     component.gameStarted = true;

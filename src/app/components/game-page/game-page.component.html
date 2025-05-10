@@ -62,6 +62,7 @@
           [data]="card"
           [gameStarted]="gameStarted"
           [revealing]="revealingCards"
+          [backImageUrl]="card.backImageUrl"
           (cardClicked)="onCardClicked(card)"
           style="max-width: clamp(120px, 20vw, 200px);"
         ></app-game-card>
