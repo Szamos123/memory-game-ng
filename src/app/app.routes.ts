@@ -6,6 +6,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ShopComponent } from './components/shop/shop.component';
+import { OwnedComponent } from './components/owned/owned.component';
 
 export const routes: Routes = [
     {
@@ -39,6 +40,10 @@ export const routes: Routes = [
       {
         path:'shop',
         component: ShopComponent,
+      },
+      {
+        path:'owned',
+        component: OwnedComponent,
       }
       
 
