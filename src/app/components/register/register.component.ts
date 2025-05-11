@@ -30,7 +30,7 @@ export class RegisterComponent {
       profilePic: '',  
       gold: 0,  
       selectedCardImage: '1',  
-      ownedCardImages: [],  
+      ownedCardImages: ["1"],  
     };
 
     
