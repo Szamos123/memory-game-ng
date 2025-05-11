@@ -22,6 +22,7 @@ export class ShopComponent {
   shopItems: ShopItem[] = [];
   user: any;
   userGold: any;
+  private readonly shopApiUrl = 'https://681109923ac96f7119a35d5a.mockapi.io/shop-items';
 
   constructor(private userService: UserService, private http: HttpClient) {
     this.user = this.userService.user;
@@ -33,11 +34,11 @@ export class ShopComponent {
   }
 
   fetchShopItems(): void {
-    const apiUrl = 'https://681109923ac96f7119a35d5a.mockapi.io/shop-items';
+    
 
-    this.http.get<ShopItem[]>(apiUrl).subscribe(
+    this.http.get<ShopItem[]>(this.shopApiUrl).subscribe(
       (items) => {
-        this.shopItems = items.filter(item => item.id !== '1');
+        this.shopItems = items.filter((item) => item.id !== '1');
         console.log('Shop items loaded:', this.shopItems);
       },
       (error) => {
@@ -63,14 +64,17 @@ export class ShopComponent {
     if (currentGold >= item.price) {
       console.log(`Attempting to purchase ${item.name} for ${item.price} gold`);
 
-      this.userService.updateUserGold(-item.price);
-      this.userService.updateOwnedItems(item.id);
-
-      alert(`✅ Successfully purchased ${item.name}!`);
+      this.userService.updateUserGold(-item.price).subscribe((updatedUser) => {
+        if (updatedUser) {
+          this.userService.updateOwnedItems(item.id);
+          alert(`✅ Successfully purchased ${item.name}!`);
+        }
+      });
     } else {
       alert('❌ You do not have enough gold!');
     }
   }
+
   isItemOwned(itemId: string): boolean {
     const user = this.userService.user();
     return user?.ownedCardImages?.includes(itemId) ?? false;
