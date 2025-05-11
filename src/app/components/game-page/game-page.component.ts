@@ -112,7 +112,10 @@ export class GamePageComponent implements OnInit, OnDestroy {
           this.flippedCards = [];
 
           var bonusGold = 5 + this.streakCounter * 2;
-          this.userService.updateUserGold(bonusGold);
+           this.userService.updateUserGold(bonusGold).subscribe(() => {
+          console.log(`User received ${bonusGold} gold for matching cards.`);
+        });
+
           this.streakCounter++;
 
           this.checkEndOfGame();
