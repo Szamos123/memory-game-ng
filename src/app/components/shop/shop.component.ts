@@ -7,7 +7,6 @@ import { RouterLink } from '@angular/router';
 interface ShopItem {
   id: string;
   name: string;
-  description: string;
   price: number;
   imageUrl: string;
 }
@@ -77,6 +76,7 @@ export class ShopComponent {
 
   isItemOwned(itemId: string): boolean {
     const user = this.userService.user();
+    console.log('Owned items:', user?.ownedCardImages);
     return user?.ownedCardImages?.includes(itemId) ?? false;
   }
 }

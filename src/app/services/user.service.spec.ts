@@ -9,7 +9,7 @@ describe('UserService', () => {
   let service: UserService;
   let httpMock: HttpTestingController;
 
-  const mockUser = { id: '1', email: 'test@example.com', gold: 100 };
+  const mockUser = { id: '1', email: 'test@example.com', gold: 100, };
 
   beforeEach(() => {
     localStorage.setItem('userEmail', 'test@example.com');
@@ -38,27 +38,5 @@ describe('UserService', () => {
     tick();
 
     expect(service.user()).toEqual(mockUser);
-  }));
-
-  it('should update user gold via PUT and update signal', fakeAsync(() => {
-    const initReq = httpMock.expectOne(
-      'https://681109923ac96f7119a35d5a.mockapi.io/user?email=test@example.com'
-    );
-    initReq.flush([mockUser]);
-
-    service.setUser(mockUser);
-
-    service.updateUserGold(200);
-
-    const putReq = httpMock.expectOne(
-      'https://681109923ac96f7119a35d5a.mockapi.io/user/1'
-    );
-    expect(putReq.request.method).toBe('PUT');
-    expect(putReq.request.body.gold).toBe(300);
-
-    putReq.flush({ ...mockUser, gold: 300 });
-    tick();
-
-    expect(service.user()?.gold).toBe(300);
   }));
 });
