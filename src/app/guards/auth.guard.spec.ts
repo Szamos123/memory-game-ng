@@ -32,7 +32,7 @@ describe('AuthGuard', () => {
   it('should block activation and redirect to login when not logged in', () => {
     localStorage.setItem('isLoggedIn', 'false');
 
-    spyOn(window, 'alert'); // suppress or check alert
+    spyOn(window, 'alert'); 
 
     const result = guard.canActivate();
 

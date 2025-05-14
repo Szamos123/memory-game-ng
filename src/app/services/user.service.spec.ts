@@ -9,7 +9,7 @@ describe('UserService', () => {
   let service: UserService;
   let httpMock: HttpTestingController;
 
-  const mockUser = { id: '1', email: 'test@example.com', gold: 100, };
+  const mockUser = { id: '1', email: 'test@example.com', gold: 100 };
 
   beforeEach(() => {
     localStorage.setItem('userEmail', 'test@example.com');

@@ -5,13 +5,13 @@ describe('AuthService', () => {
   let service: AuthService;
 
   beforeEach(() => {
-    localStorage.clear(); // clean state
+    localStorage.clear();
     TestBed.configureTestingModule({});
     service = TestBed.inject(AuthService);
   });
 
   afterEach(() => {
-    localStorage.clear(); // clean after each
+    localStorage.clear();
   });
 
   it('should initialize isLoggedIn from localStorage as false', () => {
@@ -21,7 +21,7 @@ describe('AuthService', () => {
   it('should initialize isLoggedIn from localStorage as true', () => {
     localStorage.setItem('isLoggedIn', 'true');
 
-    service = new AuthService(); // recreate to trigger re-read
+    service = new AuthService();
 
     expect(service.isLoggedIn()).toBeTrue();
   });

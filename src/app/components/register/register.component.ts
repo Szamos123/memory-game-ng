@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  imports: [FormsModule]
+  imports: [FormsModule],
 })
 export class RegisterComponent {
   registerObj = new Register();
@@ -22,22 +22,20 @@ export class RegisterComponent {
   onRegister() {
     const apiUrl = 'https://681109923ac96f7119a35d5a.mockapi.io/user';
 
-   
     const newUser = {
       email: this.registerObj.email,
       password: this.registerObj.password,
       username: this.registerObj.username,
-      profilePic: '',  
-      gold: 0,  
-      selectedCardImage: '1',  
-      ownedCardImages: ["1"],  
+      profilePic: '',
+      gold: 0,
+      selectedCardImage: '1',
+      ownedCardImages: ['1'],
     };
 
-    
     this.http.post<any>(apiUrl, newUser).subscribe(
       (user) => {
         alert('✅ Registration successful!');
-        this.authService.login(user.email);  
+        this.authService.login(user.email);
         this.router.navigate(['/home']);
       },
       (error) => {
@@ -56,5 +54,4 @@ export class Register {
   gold: number = 0;
   selectedCardImage: string = '';
   ownedCardImages: string[] = [];
-
 }
