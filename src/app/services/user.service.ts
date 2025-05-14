@@ -25,9 +25,7 @@ export class UserService {
     if (!email) return;
 
     this.http
-      .get<any[]>(
-        `${this.apiUrl}/user?email=${email}`
-      )
+      .get<any[]>(`${this.apiUrl}/user?email=${email}`)
       .subscribe((users) => {
         if (users.length > 0) {
           const currUser = users[0];
@@ -49,10 +47,7 @@ export class UserService {
     };
 
     this.http
-      .put(
-        `${this.apiUrl}/user/${currentUser.id}`,
-        updatedUser
-      )
+      .put(`${this.apiUrl}/user/${currentUser.id}`, updatedUser)
       .subscribe(
         () => {
           this._user.set(updatedUser);
@@ -65,42 +60,45 @@ export class UserService {
       );
   }
   updateUserGold(goldChange: number): Observable<any> {
-  const currentUser = this._user();
+    const currentUser = this._user();
 
-  if (!currentUser) return of(null);
+    if (!currentUser) return of(null);
 
-  const updatedGold = currentUser.gold + goldChange;
+    const updatedGold = currentUser.gold + goldChange;
 
-  const updatedUser = { ...currentUser, gold: updatedGold };
+    const updatedUser = { ...currentUser, gold: updatedGold };
 
-  console.log(`Attempting to update user gold by ${goldChange}. New gold: ${updatedGold}`);
-
-  return this.http
-    .put(`https://681109923ac96f7119a35d5a.mockapi.io/user/${currentUser.id}`, { gold: updatedGold })
-    .pipe(
-      map(() => {
-        console.log(`✅ User gold updated to: ${updatedGold}`);
-        this._user.set(updatedUser);
-        return updatedUser;
-      }),
-      catchError((error) => {
-        console.error('Failed to update user gold:', error);
-        alert('❌ Something went wrong while updating your gold.');
-        return of(null);
-      })
+    console.log(
+      `Attempting to update user gold by ${goldChange}. New gold: ${updatedGold}`
     );
-}
+
+    return this.http
+      .put(
+        `https://681109923ac96f7119a35d5a.mockapi.io/user/${currentUser.id}`,
+        { gold: updatedGold }
+      )
+      .pipe(
+        map(() => {
+          console.log(`✅ User gold updated to: ${updatedGold}`);
+          this._user.set(updatedUser);
+          return updatedUser;
+        }),
+        catchError((error) => {
+          console.error('Failed to update user gold:', error);
+          alert('❌ Something went wrong while updating your gold.');
+          return of(null);
+        })
+      );
+  }
   fetchOwnedSkins(): Observable<any[]> {
     const currUser = this.user();
     if (!currUser) return of([]);
     const ownedCardIds = currUser.ownedCardImages;
 
-    return this.http
-      .get<any[]>(`${this.apiUrl}/shop-items`)
-      .pipe(
-        map((items) => items.filter((item) => ownedCardIds.includes(item.id))),
-        catchError(() => of([]))
-      );
+    return this.http.get<any[]>(`${this.apiUrl}/shop-items`).pipe(
+      map((items) => items.filter((item) => ownedCardIds.includes(item.id))),
+      catchError(() => of([]))
+    );
   }
   selectSkin(skinId: string): void {
     const currentUser = this.user();
@@ -112,10 +110,7 @@ export class UserService {
     };
 
     this.http
-      .put(
-        `${this.apiUrl}/user/${currentUser.id}`,
-        updatedUser
-      )
+      .put(`${this.apiUrl}/user/${currentUser.id}`, updatedUser)
       .subscribe(
         () => {
           this._user.set(updatedUser);
