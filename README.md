@@ -1,63 +1,61 @@
-<<<<<<< HEAD
-# MemoryGame
+# **Memory Card Game - Angular**
+A memory card game where users earn gold by matching pairs, and spend the gold on skins for the back of the cards.  
+This project demonstrates Angular state management, HTTP requests and integration of a mock backend API.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.9.
+The project was made using Angular, RxJS and TailwindCSS.  
 
-## Development server
+## **Features:**  
 
-To start a local development server, run:
+**User Authentication:** Users can register and log in.  
 
-```bash
-ng serve
-```
+**Memory Card Game:** Classic memory game with dynamic card skins.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+**Skin Shop:** Users can purchase skins using in-game currency.  
 
-## Code scaffolding
+**Inventory:** Users can see the skins they own and equip one they like.  
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+**Gold Management:** In-game currency (Gold) is updated based on gameplay and purchases.
 
-```bash
-ng generate component component-name
-```
+**Dynamic Card Skins:** All users start with a default skin, but they can unlock and equip new skins.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**Unit tests:** All components have unit tests using Karma + Jasmine.  
 
-```bash
-ng generate --help
-```
+**Continuous Integration (CI):** CI with GitHub Actions that runs, tests and builds the project on every push and pull request to the main branch.  
 
-## Building
+## **Tech stack:**  
+**Frontend framework:** Angular 19  
 
-To build the project run:
+**State Management:** RxJS  
 
-```bash
-ng build
-```
+**UI Frameworks:** Tailwind CSS, Flowbite  
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+**API:** I used a website called mockAPI, where i could create resources and send requests to.  
 
-## Running unit tests
+## **Potential improvements:**  
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+**Responsiveness on mobile and tablet devices**  
 
-```bash
-ng test
-```
+**Using Supabase or other alternatives instead of MockAPI**
 
-## Running end-to-end tests
+**More things the user can do on their profile(upload profile pictures, etc.)**
 
-For end-to-end (e2e) testing, run:
+**Integrate a notification service instead of alerts**
 
-```bash
-ng e2e
-```
+# **Setup and installation**   
+1. **Clone the repository:**  
+   ```bash
+   git clone https://github.com/Szamos123/memory-game-ng.git
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+2. **Move into the project directory**
+   ```bash
+   cd <memory-game-ng>
+3. **Install dependencies**
+   ```bash
+   npm install
+4. **Start development server**
+   ```bash
+   ng serve
+5. **To run tests**
+   ```bash
+   ng test
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-=======
-# memory-game-ng
->>>>>>> 134367cbcf667622bf1331902a39a787222d0aa0
